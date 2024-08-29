@@ -40,11 +40,9 @@ class FileStorage():
         """
         Serializes __objects to a JSON file.
         """
-        print("Saving objects to JSON...")
         print(self.__objects)
         obj_dict = {key: obj.to_dict()
                       for key, obj in self.__objects.items()}
-        print("saved object")
         with open(self.__file_path, 'w') as f:
             json.dump(obj_dict, f)
 

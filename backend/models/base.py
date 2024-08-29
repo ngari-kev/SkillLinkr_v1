@@ -47,6 +47,7 @@ class Base():
     def save(self):
         """updates updated at and saves the instance"""
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """Serializes instances and returns dict of all instances"""
