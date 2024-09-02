@@ -7,13 +7,13 @@ const NavBar = () => {
     <>
       <nav className="flex space-x-10">
         <Link
-          to="/product"
+          to="/"
           className="text-sky-900 font-medium hover:text-sky-500"
         >
           Home
         </Link>
         <Link
-          to="/features"
+          to="/about"
           className="text-sky-900 font-medium hover:text-sky-500"
         >
           About
