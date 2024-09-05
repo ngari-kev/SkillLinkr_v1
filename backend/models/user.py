@@ -10,7 +10,7 @@ from models.base import Base
 
 class User(Base):
     """Defines User Object"""
-    def __init__(self, name, email, bio=None, location=None, skills=None, **kwargs):
+    def __init__(self, name="", email="", bio=None, location=None, skills=None, **kwargs):
         """Constructor"""
         super().__init__(**kwargs)
         self.name = name
