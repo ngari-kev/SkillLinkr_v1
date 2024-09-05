@@ -1,12 +1,12 @@
 export const teamMembers = [
   {
-    name: "Jane Doe",
-    role: "CEO & Founder",
+    name: "Kyenpya Gutap",
+    role: "CEO & Co-founder",
     imageUrl: "https://via.placeholder.com/150",
   },
   {
-    name: "John Smith",
-    role: "CTO",
+    name: "Kelvin Mukaria",
+    role: "CTO & Co-founder",
     imageUrl: "https://via.placeholder.com/150",
   },
   {

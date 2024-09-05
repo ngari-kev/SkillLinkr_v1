@@ -5,7 +5,7 @@ const TeamInfo = () => {
   return (
     <>
       <section>
-        <h2 className="text-3xl font-bold text-sky-900 mb-8">Meet Our Team</h2>
+        <h2 className="text-3xl font-bold text-sky-900 mb-10 text-center">Meet Our Team</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {teamMembers.map((member) => (
             <div

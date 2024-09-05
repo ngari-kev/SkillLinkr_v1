@@ -4,7 +4,7 @@ const CompanyInfo = () => {
   return (
     <>
       <section className="mb-16">
-        <h2 className="text-3xl font-bold text-sky-900 mb-4">Our Company</h2>
+        <h2 className="text-3xl font-bold text-sky-900 mb-8 text-center">Our Company</h2>
         <p className="text-lg text-sky-900 mb-6">
           At SkillLinkr, we are committed to providing the best platform for
           professionals to connect and grow. Founded in 2020, our mission is to
