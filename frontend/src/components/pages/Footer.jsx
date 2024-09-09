@@ -27,16 +27,16 @@ const Footer = () => {
 
         {/* Social media icons */}
         <div className="flex justify-center space-x-6 mb-6">
-          <a href="#" className="text-gray-600 hover:text-blue-900 hover:bg-white">
+          <a href="#" className="text-gray-600 hover:text-blue-900 hover:bg-white hover:rounded-lg">
             <FaFacebookF className="w-6 h-6" />
           </a>
-          <a href="#" className="text-gray-600 hover:text-rose-900 hover:bg-white">
+          <a href="#" className="text-gray-600 hover:text-rose-900 hover:bg-white hover:rounded-lg">
             <FaInstagram className="w-6 h-6" />
           </a>
           <a href="#" className="text-gray-600 hover:text-white">
             <FaGithub className="w-6 h-6" />
           </a>
-          <a href="#" className="text-gray-600 hover:text-red-900 hover:bg-white">
+          <a href="#" className="text-gray-600 hover:text-red-900 hover:bg-white hover:rounded-md">
             <FaYoutube className="w-6 h-6" />
           </a>
         </div>

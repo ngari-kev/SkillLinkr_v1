@@ -1,0 +1,51 @@
+export const peopleData = [
+  {
+    id: 1,
+    imageUrl: "https://link-to-image1.jpg",
+    name: "John Doe",
+    occupation: "Software Developer",
+    skills: ["JavaScript", "React", "Node.js"],
+  },
+  {
+    id: 2,
+    imageUrl: "https://link-to-image2.jpg",
+    name: "Jane Smith",
+    occupation: "Data Scientist",
+    skills: ["Python", "Machine Learning", "Data Analysis"],
+  },
+  {
+    id: 3,
+    imageUrl: "https://link-to-image3.jpg",
+    name: "Sam Johnson",
+    occupation: "UI/UX Designer",
+    skills: ["Figma", "Sketch", "Prototyping"],
+  },
+  {
+    id: 4,
+    imageUrl: "https://link-to-image4.jpg",
+    name: "Emily Brown",
+    occupation: "Project Manager",
+    skills: ["Agile", "Scrum", "Team Leadership"],
+  },
+  {
+    id: 5,
+    imageUrl: "https://link-to-image5.jpg",
+    name: "Michael Lee",
+    occupation: "DevOps Engineer",
+    skills: ["AWS", "Docker", "Kubernetes"],
+  },
+  {
+    id: 6,
+    imageUrl: "https://link-to-image6.jpg",
+    name: "Rachel Green",
+    occupation: "Product Manager",
+    skills: ["Roadmapping", "Market Research", "Product Design"],
+  },
+  {
+    id: 7,
+    imageUrl: "https://link-to-image7.jpg",
+    name: "David Kim",
+    occupation: "Cybersecurity Analyst",
+    skills: ["Penetration Testing", "Risk Management", "Network Security"],
+  },
+];
