@@ -1,6 +1,7 @@
 import React from "react";
 import { peopleData } from "../../data/marketplacecards";
 import Header from "../Header";
+import Footer from "./Footer";
 
 
 const Marketplace = () => {
@@ -28,6 +29,7 @@ const Marketplace = () => {
           </div>
         </div>
       </section>
+      <Footer/>
     </>
   );
 };
