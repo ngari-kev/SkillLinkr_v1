@@ -25,12 +25,12 @@ const NavBar = () => {
         >
           Marketplace
         </Link>
-        <Link
+        {/* <Link
           to="/company"
           className="text-sky-900 font-bold hover:text-sky-500"
         >
           Company
-        </Link>
+        </Link> */}
         <Link
           to="/login"
           className="text-sky-900 font-bold hover:text-sky-500"
