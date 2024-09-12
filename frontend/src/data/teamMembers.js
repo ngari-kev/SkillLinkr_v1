@@ -7,8 +7,8 @@ export const teamMembers = [
     role: "CEO & Co-founder",
     imageUrl: KyenpyaImage,
     github: "https://github.com/kyenpya",
-    twitter: "https://twitter.com/kyenpya",
-    linkedin: "https://linkedin.com/in/kyenpya"
+    twitter: "https://x.com/kyenpya_g",
+    linkedin: "https://www.linkedin.com/in/kyenpya-gutap-957538138"
   },
   {
     name: "Kelvin Mukaria",

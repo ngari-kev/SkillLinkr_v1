@@ -7,7 +7,7 @@ const CompanyInfo = () => {
         <h2 className="text-3xl font-bold text-sky-900 mb-8 text-center">Our Company</h2>
         <p className="text-lg text-sky-900 mb-6">
           At SkillLinkr, we are committed to providing the best platform for
-          professionals to connect and grow. Founded in 2020, our mission is to
+          professionals to connect and grow. Founded in 2024, our mission is to
           bridge the gap between skill and opportunity, enabling individuals and
           businesses to thrive in an ever-evolving digital landscape.
         </p>
