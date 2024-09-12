@@ -17,8 +17,8 @@ const Footer = () => {
           <Link to="/marketplace" className="text-white hover:text-sky-200">
             Marketplace
           </Link>
-          <Link to="/company" className="text-white hover:text-sky-200">
-            Company
+          <Link to="#" className="text-white hover:text-sky-200">
+            Blog
           </Link>
           <Link to="/login" className="text-white hover:text-sky-200">
             Login
