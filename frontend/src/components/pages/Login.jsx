@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import logo from "../../assets/logo_again.png"
 
 const Login = () => {
   return (
@@ -20,7 +21,7 @@ const Login = () => {
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <img
                 alt="SkillLinkr logo"
-                src="src/assets/SkillLinkr_White.svg"
+                src={logo}
                 className="mx-auto h-40 w-auto"
               />
               <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-sky-900">
