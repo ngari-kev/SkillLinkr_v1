@@ -38,3 +38,4 @@ class Skill(Base):
             'users': [user.to_dict() for user in self.users]
         })
         return base_dict
+

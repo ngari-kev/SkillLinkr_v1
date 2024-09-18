@@ -40,7 +40,6 @@ class FileStorage():
         """
         Serializes __objects to a JSON file.
         """
-        print(self.__objects)
         obj_dict = {key: obj.to_dict()
                       for key, obj in self.__objects.items()}
         with open(self.__file_path, 'w') as f:
@@ -50,12 +49,13 @@ class FileStorage():
         """
         Deserializes the JSON file to __objects.
         """
+        class_map = {"User": User, "Skill": Skill}
         if path.exists(self.__file_path):
             with open(self.__file_path, 'r') as f:
                 obj_dict = json.load(f)
                 for key, object_dict in obj_dict.items():
-                    FileStorage.__objects[key] = eval(
-                        object_dict['__class__'])(**object_dict)
+                    cls = object_dict['__class__']
+                    FileStorage.__objects[key] = class_map[cls](**object_dict)
 
     def count(self, cls=None):
         """Count the number of instances of a class"""
@@ -63,3 +63,4 @@ class FileStorage():
             return sum(1 for instance in self.all().values()
                        if type(instance).__name__ == cls)
         return len(self.__objects)
+

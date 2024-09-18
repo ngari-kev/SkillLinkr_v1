@@ -35,8 +35,6 @@ class Base():
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             models.storage.new(self)
-        self.created_at = datetime.now()
-        self.updated_at = copy.deepcopy(self.created_at)
 
     def __str__(self):
         """string representation of the objects"""
@@ -55,3 +53,4 @@ class Base():
         new_dict['created_at'] = self.created_at.isoformat()
         new_dict['updated_at'] = self.updated_at.isoformat()
         return new_dict
+
