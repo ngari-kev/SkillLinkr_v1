@@ -49,13 +49,17 @@ class FileStorage():
         """
         Deserializes the JSON file to __objects.
         """
-        class_map = {"User": User, "Skill": Skill}
         if path.exists(self.__file_path):
             with open(self.__file_path, 'r') as f:
                 obj_dict = json.load(f)
+                class_map = {
+                    'User': User,
+                    'Skill': Skill
+                    }
                 for key, object_dict in obj_dict.items():
-                    cls = object_dict['__class__']
-                    FileStorage.__objects[key] = class_map[cls](**object_dict)
+                    cls_name = object_dict['__class__']
+                    if cls_name in class_map:
+                        self.__objects[key] = class_map[cls_name](**object_dict)
 
     def count(self, cls=None):
         """Count the number of instances of a class"""
