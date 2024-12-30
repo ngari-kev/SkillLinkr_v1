@@ -7,9 +7,9 @@
 
 - **Deployed Site**: [Visit SkillLinkr](https://skilllinkr.netlify.app/)
 - **Project Blog Article**: [SkillLinkr Project Blog](https://blog.skilllinkr.com/final-project)
-- **Author(s)**: 
-  - [Kyenpya Gutap](https://www.linkedin.com/in/johndoe/) 
-  - [Kelvin Mukaria](https://www.linkedin.com/in/janesmith/)
+- **Author(s)**:
+  - [Kyenpya Gutap](https://www.linkedin.com/in/johndoe/)
+  - [Kelvin Mukaria](https://www.linkedin.com/in/v3k)
 
 ## Screenshot
 
@@ -34,10 +34,10 @@ To set up the project locally using Vite, follow these steps:
 3. **npm create vite@latest skilllinkr --template react**
     Navigate to the project directory:
 
- 
+
 4. **cd skilllinkr**
     Install project dependencies:
- 
+
 5. **npm install**
     Run the development server:
 
@@ -75,5 +75,3 @@ Once the project is set up, you can explore the following features:
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-
