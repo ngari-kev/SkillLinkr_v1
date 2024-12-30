@@ -24,7 +24,7 @@ To run the project locally, follow these steps:
 
 To set up the project locally using Vite, follow these steps:
 1. **Clone the repository**:
-   git clone https://github.com/ngari-kev/skilllinkr.git
+   git clone https://github.com/ngari-kev/Skilllinkr.git
 
 
 2. **Install Vite globally** (if you don't have it installed already):
