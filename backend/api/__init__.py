@@ -12,5 +12,5 @@ app = Flask(__name__)
 
 """Registering blueprints"""
 app.register_blueprint(user_bp, url_prefix='/api/v1/users')
-app.register_blueprint(skill_bp, url_prfix='api/v1/skills')
+app.register_blueprint(skill_bp, url_prefix='/api/v1/skills')
 

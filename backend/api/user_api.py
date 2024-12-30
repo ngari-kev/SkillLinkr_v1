@@ -7,6 +7,13 @@ from models.user import User
 
 user_bp = Blueprint('user_api', __name__)
 
+@user_bp.route('/login', methods=['POST'])
+def login():
+    """Logging in function"""
+    msg = "User logging in"
+    print(msg)
+    return jsonify(msg)
+
 @user_bp.route('/', methods=['GET'])
 def get_users():
     """Retrieve all users."""
@@ -58,4 +65,3 @@ def delete_user(user_id):
     del storage.all()[f"User.{user.id}"]
     storage.save()
     return jsonify({}), 200
-
