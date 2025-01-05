@@ -37,7 +37,7 @@ const NavBar = () => {
         </Link>
         <Link
           to="/signup"
-          className="ml-4 px-10 py-3 text-white bg-sky-500 font-bold rounded-md hover:bg-sky-700 hover:text-white"
+          className="ml-auto px-10 py-3 text-white bg-sky-500 font-bold rounded-md hover:bg-sky-700 hover:text-white"
         >
           Get started
         </Link>
