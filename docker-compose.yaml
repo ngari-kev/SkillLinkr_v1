@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    container_name: skilllinkr-backend
+    restart: unless-stopped
+    environment:
+      - FLASK_APP=main.py
+    networks:
+      - app-network
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: skilllinkr-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./frontend/dist:/srv # Mount the built frontend files
+      - ./Caddyfile:/etc/caddy/Caddyfile # Mount the Caddyfile configuration
+      - caddy_data:/data # Persist Caddy data (certificates, etc.)
+      - caddy_config:/config # Persist Caddy configuration
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

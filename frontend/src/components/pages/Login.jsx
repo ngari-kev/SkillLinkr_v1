@@ -1,8 +1,41 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import logo from "../../assets/logo_again.png"
+import { Link } from "react-router-dom";
+import logo from "../../assets/logo_again.png";
+import { useState } from "react";
 
 const Login = () => {
+  const [form, setForm] = useState({});
+
+  const handleInput = (event) => {
+    setForm((prev) => {
+      return {
+        ...prev,
+        [event.target.name]: event.target.value,
+      };
+    });
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    const res = await fetch("http://localhost:5000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+
+    const resJSON = await res.json();
+    console.log({
+      resJSON,
+    });
+    const accessToken = resJSON.tokens.access;
+    const refreshToken = resJSON.tokens.refresh;
+    localStorage.setItem("access", accessToken);
+    localStorage.setItem("refresh", refreshToken);
+  };
+
   return (
     <>
       <div className="flex min-h-screen items-center justify-center bg-slate-100">
@@ -30,22 +63,28 @@ const Login = () => {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-              <form action="#" method="POST" className="space-y-6">
+              <form
+                onSubmit={handleLogin}
+                action="#"
+                method="POST"
+                className="space-y-6"
+              >
                 <div>
                   <label
-                    htmlFor="email"
+                    htmlFor="username"
                     className="block text-sm font-medium leading-6 text-sky-900"
                   >
                     Email address
                   </label>
                   <div className="mt-2">
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
+                      id="username"
+                      name="username"
+                      type="text"
                       required
                       autoComplete="email"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-md ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                      onInput={handleInput}
                     />
                   </div>
                 </div>
@@ -75,6 +114,7 @@ const Login = () => {
                       required
                       autoComplete="current-password"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-md ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                      onInput={handleInput}
                     />
                   </div>
                 </div>
@@ -92,11 +132,11 @@ const Login = () => {
               <p className="mt-10 text-center text-sm text-sky-700">
                 Not a member?{" "}
                 <Link
-                to="/signup"  // Use Link to navigate to the sign-up page
-                className="font-semibold leading-6 text-sky-900 hover:text-sky-500"
-              >
-                Sign Up
-              </Link>
+                  to="/signup" // Use Link to navigate to the sign-up page
+                  className="font-semibold leading-6 text-sky-900 hover:text-sky-500"
+                >
+                  Sign Up
+                </Link>
               </p>
             </div>
           </div>
