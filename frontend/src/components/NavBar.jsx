@@ -30,16 +30,16 @@ const NavBar = () => {
           Log in
         </Link>
         <Link
-          to="/signup"
-          className="ml-4 px-10 py-3 text-white bg-sky-500 font-bold rounded-md hover:bg-sky-700 hover:text-white"
-        >
-          Get started
-        </Link>
-        <Link
           to="/profile"
           className="text-sky-900 font-bold hover:text-sky-500"
         >
           Profile
+        </Link>
+        <Link
+          to="/signup"
+          className="ml-4 px-10 py-3 text-white bg-sky-500 font-bold rounded-md hover:bg-sky-700 hover:text-white"
+        >
+          Get started
         </Link>
       </nav>
     </>
