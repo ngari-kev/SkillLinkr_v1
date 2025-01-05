@@ -6,7 +6,7 @@ services:
     container_name: skilllinkr-backend
     restart: unless-stopped
     ports:
-      - 5000:5000
+      - "5000"
     environment:
       - FLASK_APP=main.py
     networks:
