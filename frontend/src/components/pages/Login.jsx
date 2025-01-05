@@ -18,7 +18,7 @@ const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    const res = await fetch("http://localhost:5000/auth/login", {
+    const res = await fetch("http://98.84.162.109/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
