@@ -5,6 +5,8 @@ services:
     build: ./backend
     container_name: skilllinkr-backend
     restart: unless-stopped
+    ports:
+      - 5000:5000
     environment:
       - FLASK_APP=main.py
     networks:
@@ -18,10 +20,10 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./frontend/dist:/srv # Mount the built frontend files
-      - ./Caddyfile:/etc/caddy/Caddyfile # Mount the Caddyfile configuration
-      - caddy_data:/data # Persist Caddy data (certificates, etc.)
-      - caddy_config:/config # Persist Caddy configuration
+      - ./frontend/dist:/srv
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
     networks:
       - app-network
     depends_on:
