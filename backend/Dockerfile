@@ -13,4 +13,4 @@ EXPOSE 5000
 
 ENV FLASK_APP=main.py
 
-CMD ["/usr/local/bin/gunicorn", "--bind", "0.0.0.0:5000", "main:create_app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
