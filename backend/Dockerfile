@@ -2,15 +2,15 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt /app/
+COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir gunicorn && \
+    pip install --no-cache-dir -r requirements.txt
 
-COPY . /app/
+COPY . .
 
 EXPOSE 5000
 
 ENV FLASK_APP=main.py
 
-# Remove the parentheses from create_app()
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "main:create_app"]
+CMD ["/usr/local/bin/gunicorn", "--bind", "0.0.0.0:5000", "main:create_app"]
