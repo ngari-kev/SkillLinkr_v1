@@ -12,4 +12,5 @@ EXPOSE 5000
 
 ENV FLASK_APP=main.py
 
-CMD gunicorn --bind 0.0.0.0:5000 main:create_app()
+# Remove the parentheses from create_app()
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "main:create_app"]
