@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo_again.png";
 import { useState } from "react";
 
 const Login = () => {
   const [form, setForm] = useState({});
+  const navigate = useNavigate();
 
   const handleInput = (event) => {
     setForm((prev) => {
@@ -18,22 +19,33 @@ const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    const res = await fetch("http://98.84.162.109/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
+    try {
+      const res = await fetch("http://98.84.162.109/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
 
-    const resJSON = await res.json();
-    console.log({
-      resJSON,
-    });
-    const accessToken = resJSON.tokens.access;
-    const refreshToken = resJSON.tokens.refresh;
-    localStorage.setItem("access", accessToken);
-    localStorage.setItem("refresh", refreshToken);
+      const resJSON = await res.json();
+      console.log({
+        resJSON,
+      });
+
+      if (res.ok) {
+        const accessToken = resJSON.tokens.access;
+        const refreshToken = resJSON.tokens.refresh;
+        localStorage.setItem("access", accessToken);
+        localStorage.setItem("refresh", refreshToken);
+        console.log("Login successful");
+        navigate("/Home");
+      } else {
+        console.error("Login error:", resJSON.error);
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+    }
   };
 
   return (

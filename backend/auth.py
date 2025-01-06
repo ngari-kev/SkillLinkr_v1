@@ -1,3 +1,4 @@
+from .SkillLinkr.lib.python3.13.site-packages.pip._vendor.distlib.util import OR
 #!/usr/bin/python3
 
 """
@@ -38,19 +39,26 @@ def register_user():
         Returns:
         - 201: User successfully created
         - 403: Username already exists
+        - 400: Bad request (e.g. missing fields)
     """
 
     data = request.get_json()
+
+    if not data or 'username' not in data or 'email' not in data or 'password' not in data:
+        return jsonify({"error": "Missing fields"}), 400
+
     user = User.get_user_by_username(username = data.get('username'))
+    mail = User.query.filter_by(email=data.get('email')).first()
 
     if user is not None:
         return jsonify({"error":"user already exists"}), 403
 
+    if mail is not None:
+        return jsonify({"error":"Email address is taken. Try another one"}), 403
+
     username = data.get('username')
     email = data.get('email')
-
     new_user = User(username=username, email=email)
-
     new_user.set_password(password=data.get('password'))
     new_user.save()
 
