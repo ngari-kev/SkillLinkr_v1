@@ -88,7 +88,7 @@ const Login = () => {
                     htmlFor="username"
                     className="block text-sm font-medium leading-6 text-sky-900"
                   >
-                    Email address
+                    Username
                   </label>
                   <div className="mt-2">
                     <input
@@ -96,7 +96,7 @@ const Login = () => {
                       name="username"
                       type="text"
                       required
-                      autoComplete="email"
+                      autoComplete="username"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-md ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
                       onInput={handleInput}
                     />
