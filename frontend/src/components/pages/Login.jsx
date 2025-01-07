@@ -21,7 +21,7 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const res = await fetch("https://ngarikev.tech/auth/login", {
+      const res = await fetch("https://skilllinkr.ngarikev.tech/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -22,12 +22,15 @@ const Profile = () => {
         throw new Error("Access token not found");
       }
 
-      const response = await fetch("https://ngarikev.tech/auth/whoami", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const response = await fetch(
+        "https://skilllinkr.ngarikev.tech/auth/whoami",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -56,7 +59,7 @@ const Profile = () => {
 
       try {
         const response = await fetch(
-          "https://ngarikev.tech/users/upload-photo",
+          "https://skilllinkr.ngarikev.tech/users/upload-photo",
           {
             method: "POST",
             headers: {
@@ -81,14 +84,17 @@ const Profile = () => {
     if (!newSkill.trim()) return;
 
     try {
-      const response = await fetch("https://ngarikev.tech/skills/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access")}`,
+      const response = await fetch(
+        "https://skilllinkr.ngarikev.tech/skills/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          },
+          body: JSON.stringify({ skill_name: newSkill }),
         },
-        body: JSON.stringify({ skill_name: newSkill }),
-      });
+      );
 
       if (response.ok) {
         fetchProfile();
@@ -102,7 +108,7 @@ const Profile = () => {
   const handleRemoveSkill = async (skillName) => {
     try {
       const response = await fetch(
-        `https://ngarikev.tech/skills/remove/${skillName}`,
+        `https://skilllinkr.ngarikev.tech/skills/remove/${skillName}`,
         {
           method: "DELETE",
           headers: {
