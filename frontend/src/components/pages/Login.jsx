@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const Login = () => {
   const [form, setForm] = useState({});
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleInput = (event) => {
@@ -28,23 +29,24 @@ const Login = () => {
         body: JSON.stringify(form),
       });
 
-      const resJSON = await res.json();
-      console.log({
-        resJSON,
-      });
-
       if (res.ok) {
+        const resJSON = await res.json();
         const accessToken = resJSON.tokens.access;
         const refreshToken = resJSON.tokens.refresh;
         localStorage.setItem("access", accessToken);
         localStorage.setItem("refresh", refreshToken);
         console.log("Login successful");
-        navigate("/Home");
+        navigate("/home");
       } else {
-        console.error("Login error:", resJSON.error);
+        const errorData = await res.json();
+        console.error("Login error:", errorData.error);
+        setError(
+          errorData.error || "Login failed. Please check your credentials.",
+        );
       }
     } catch (err) {
       console.error("Login error:", err);
+      setError("Network error or server is down.");
     }
   };
 

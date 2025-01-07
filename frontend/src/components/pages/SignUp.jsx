@@ -20,7 +20,10 @@ const SignUp = () => {
   const handleSignup = async (event) => {
     event.preventDefault();
 
-    if (form.password !== form.confirmPassword) {
+    const password = form.password;
+    const confirmPassword = form.confirmPassword;
+
+    if (password !== confirmPassword) {
       setError("Passwords do not match!");
       return;
     }
