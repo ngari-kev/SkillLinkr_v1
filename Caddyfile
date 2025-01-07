@@ -2,7 +2,7 @@
     email kevngariwangui@gmail.com
 }
 
-:80 {
+ngarikev.tech {
     @api {
         path /api/*
     }
