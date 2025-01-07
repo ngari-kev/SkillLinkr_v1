@@ -22,7 +22,7 @@ const Profile = () => {
         throw new Error("Access token not found");
       }
 
-      const response = await fetch("http://localhost:5000/auth/whoami", {
+      const response = await fetch("http://98.84.162.109/auth/whoami", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -56,7 +56,7 @@ const Profile = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:5000/users/upload-photo",
+          "http://98.84.162.109/users/upload-photo",
           {
             method: "POST",
             headers: {
@@ -81,7 +81,7 @@ const Profile = () => {
     if (!newSkill.trim()) return;
 
     try {
-      const response = await fetch("http://localhost:5000/skills/add", {
+      const response = await fetch("http://98.84.162.109/skills/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,7 +102,7 @@ const Profile = () => {
   const handleRemoveSkill = async (skillName) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/skills/remove/${skillName}`,
+        `http://98.84.162.109/skills/remove/${skillName}`,
         {
           method: "DELETE",
           headers: {

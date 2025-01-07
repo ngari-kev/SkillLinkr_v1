@@ -26,7 +26,7 @@ const SignUp = () => {
     }
 
     try {
-      const signUpRes = await fetch("http://98.84.162.109/api/auth/register", {
+      const signUpRes = await fetch("http://98.84.162.109/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const SignUp = () => {
       if (signUpRes.ok) {
         console.log("SignUp successful: ", signUpResJSON);
 
-        const loginRes = await fetch("http://98.84.162.109/api/auth/login", {
+        const loginRes = await fetch("http://98.84.162.109/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
