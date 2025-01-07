@@ -22,6 +22,7 @@ const SignUp = () => {
 
     const password = form.password;
     const confirmPassword = form.confirmPassword;
+    console.log(form.password, form.confirmPassword);
 
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
