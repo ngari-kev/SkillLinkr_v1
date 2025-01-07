@@ -29,7 +29,7 @@ const Login = () => {
         body: JSON.stringify(form),
       });
 
-      console.log("res", res);
+      console.log(res);
       console.log(form);
 
       if (res.ok) {

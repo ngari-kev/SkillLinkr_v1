@@ -1,6 +1,3 @@
 */__pycache__/
 *.pyc
-*/.env
-backend/instance/
-*.sqlite3
 .SkillLinkr/

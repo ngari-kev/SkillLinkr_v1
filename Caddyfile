@@ -12,11 +12,10 @@ skilllinkr.ngarikev.tech {
     }
 
     handle @api {
+        methods POST GET
         uri strip_prefix /api
         reverse_proxy backend:5000 {
             header_up Host {upstream_hostport}
-            # Remove health checks for now as they're causing errors
-            # health checks can be added back once the backend endpoint is ready
         }
     }
 
