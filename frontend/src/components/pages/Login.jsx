@@ -29,6 +29,8 @@ const Login = () => {
         body: JSON.stringify(form),
       });
 
+      consolelog(form);
+
       if (res.ok) {
         const resJSON = await res.json();
         const accessToken = resJSON.tokens.access;
