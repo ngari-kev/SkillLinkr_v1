@@ -28,7 +28,7 @@ def create_app():
     """
     '''Create a new Flask application instance'''
     app = Flask(__name__)
-    CORS(app)
+    CORS(app, resources={r"/auth/*": {"origins": "http://skilllinkr.ngarikev.tech"}})
 
     # Load environment variables prefixed with "FLASK_" from .env file
     # Example: FLASK_SECRET_KEY=xyz will be loaded as app.config["SECRET_KEY"]

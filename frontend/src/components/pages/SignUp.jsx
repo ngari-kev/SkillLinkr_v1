@@ -30,35 +30,29 @@ const SignUp = () => {
     }
 
     try {
-      const signUpRes = await fetch(
-        "http://skilllinkr.ngarikev.tech/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form),
+      const signUpRes = await fetch("http://localhost:5000/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(form),
+      });
 
       const signUpResJSON = await signUpRes.json();
 
       if (signUpRes.ok) {
         console.log("SignUp successful: ", signUpResJSON);
 
-        const loginRes = await fetch(
-          "http://skilllinkr.ngarikev.tech/auth/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: form.username,
-              password: form.password,
-            }),
+        const loginRes = await fetch("http://localhost:5000/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({
+            username: form.username,
+            password: form.password,
+          }),
+        });
 
         const loginResJSON = await loginRes.json();
 

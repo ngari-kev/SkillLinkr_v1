@@ -63,7 +63,7 @@ def register_user():
 
     return jsonify ({"message":"User created"}), 201
 
-@auth_bp.post('/login')
+@auth_bp.route('/login', methods=['POST'])
 def login_user():
     """
         Handles user authentication.
@@ -94,7 +94,7 @@ def login_user():
             }
         ), 200
 
-    return jsonify({"error":"Invalid username or password"}), 400
+    return jsonify({"error":"Invalid username or password"}), 401
 
 @auth_bp.get('/whoami')
 @jwt_required()
