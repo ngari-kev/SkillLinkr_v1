@@ -16,7 +16,6 @@ class User(db.Model):
     email = db.Column(db.String(), nullable=False)
     password = db.Column(db.Text())
     skills = db.relationship('Skill', secondary=user_skills, backref='users')
-    profile_photo = db.Column(db.String(255))
 
     def __init__(self, username, email):
         self.username = username
