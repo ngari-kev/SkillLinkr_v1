@@ -20,14 +20,14 @@ const SignUp = () => {
   const handleSignup = async (event) => {
     event.preventDefault();
 
-    const password = form.password;
-    const confirmPassword = form.confirmPassword;
-    console.log(form.password, form.confirmPassword);
+    // const password = form.password;
+    // const confirmPassword = form.confirmPassword;
+    // console.log(form.password, form.confirmPassword);
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match!");
-      return;
-    }
+    // if (password !== confirmPassword) {
+    //   setError("Passwords do not match!");
+    //   return;
+    // }
 
     try {
       const signUpRes = await fetch("http://98.84.162.109/auth/register", {
