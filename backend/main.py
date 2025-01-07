@@ -15,6 +15,7 @@ from skills import skills_bp
 from users import user_bp
 from models import User, TokenBlockList
 from flask_cors import CORS
+from uploads import configure_cloudinary
 
 
 
@@ -32,6 +33,7 @@ def create_app():
     # Load environment variables prefixed with "FLASK_" from .env file
     # Example: FLASK_SECRET_KEY=xyz will be loaded as app.config["SECRET_KEY"]
     app.config.from_prefixed_env()
+    configure_cloudinary(app)
 
     # Initialize the database with the Flask application
     # This connects the database instance to this specific Flask app

@@ -150,6 +150,14 @@ const Login = () => {
                   Sign Up
                 </Link>
               </p>
+              <div className="mt-4 text-center">
+                <Link
+                  to="/"
+                  className="text-sm font-semibold text-white bg-sky-900 px-4 py-2 rounded-md hover:bg-sky-500 transition-colors"
+                >
+                  Return to Home Page
+                </Link>
+              </div>
             </div>
           </div>
         </div>

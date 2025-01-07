@@ -1,5 +1,7 @@
 blinker==1.9.0
+certifi==2024.12.14
 click==8.1.8
+cloudinary==1.42.0
 Flask==3.1.0
 Flask-Cors==5.0.0
 Flask-JWT-Extended==4.7.1
@@ -11,6 +13,8 @@ marshmallow==3.23.2
 packaging==24.2
 PyJWT==2.10.1
 python-dotenv==1.0.1
+six==1.17.0
 SQLAlchemy==2.0.36
 typing_extensions==4.12.2
+urllib3==2.3.0
 Werkzeug==3.1.3
