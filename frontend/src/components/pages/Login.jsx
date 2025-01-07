@@ -20,7 +20,7 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const res = await fetch("http://98.84.162.109/auth/login", {
+      const res = await fetch("https://ngarikev.tech/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
