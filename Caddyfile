@@ -1,22 +1,38 @@
 {
     email kevngariwangui@gmail.com
+    # Add admin API for debugging if needed
+    # admin 0.0.0.0:2019
 }
 
-ngarikev.tech {
-    # Security headers
-    header {
-        # Enable HSTS
-        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-        # Prevent XSS attacks
-        X-XSS-Protection "1; mode=block"
-        # Prevent clickjacking
-        X-Frame-Options "DENY"
-        # Prevent MIME type sniffing
-        X-Content-Type-Options "nosniff"
-        # Referrer policy
-        Referrer-Policy "strict-origin-when-cross-origin"
+skilllinkr.ngarikev.tech {
+    # TLS configuration
+    tls {
+        protocols tls1.2 tls1.3
     }
 
+    # Logging for debugging
+    log {
+        output file /var/log/caddy/access.log {
+            roll_size 10mb
+            roll_keep 10
+        }
+        format json
+    }
+
+    # Security headers
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-XSS-Protection "1; mode=block"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        # Add CORS headers if needed
+        Access-Control-Allow-Origin "*"
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Origin, Content-Type, Accept, Authorization"
+    }
+
+    # API routing
     @api {
         path /api/*
     }
@@ -25,12 +41,26 @@ ngarikev.tech {
         uri strip_prefix /api
         reverse_proxy backend:5000 {
             header_up Host {upstream_hostport}
+            # Add health checks
+            health_path /health
+            health_interval 30s
         }
     }
 
+    # Static file serving
     handle {
         root * /srv
         try_files {path} /index.html
-        file_server
+        file_server {
+            precompressed br gzip
+        }
     }
+
+    # Error handling
+    handle_errors {
+        respond "{err.status_code} {err.status_text}" 500
+    }
+
+    # Gzip compression
+    encode gzip
 }
