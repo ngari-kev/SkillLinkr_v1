@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const Login = () => {
   const [form, setForm] = useState({});
-  const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
   const handleInput = (event) => {
@@ -29,6 +29,7 @@ const Login = () => {
         body: JSON.stringify(form),
       });
 
+      console.log("res", res);
       console.log(form);
 
       if (res.ok) {
@@ -42,13 +43,13 @@ const Login = () => {
       } else {
         const errorData = await res.json();
         console.error("Login error:", errorData.error);
-        setError(
+        setErrorMessage(
           errorData.error || "Login failed. Please check your credentials.",
         );
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError("Network error or server is down.");
+      setErrorMessage("Network error or server is down.");
     }
   };
 
