@@ -40,6 +40,11 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
 
+    #health check for server
+    @app.route('/health')
+    def health_check():
+        return jsonify({"status": "healthy"}), 200
+
     #register blueprint
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(user_bp, url_prefix='/users')
