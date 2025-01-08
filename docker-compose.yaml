@@ -7,6 +7,10 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    environment:
+      - CLOUDINARY_CLOUD_NAME=skilllinkr
+      - CLOUDINARY_API_KEY=886385919249672
+      - CLOUDINARY_API_SECRET=ncXHABkbzxj68Z3VJR1aiwsAVCk
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 30s
