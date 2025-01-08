@@ -77,24 +77,32 @@ def login_user():
         - 400: Invalid credentials
     """
 
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    user = User.get_user_by_username(username=data.get('username'))
+        if not data or "username" not in data or "password" not in data:
+            return jsonify({"error": "Missing username or password"}), 400
 
-    if user and (user.check_password(password = data.get('password'))):
-        access_token = create_access_token(identity=user.username)
-        refresh_token = create_refresh_token(identity=user.username)
-        return jsonify(
-            {
-                "message":"Logged in",
-                "tokens":{
-                    "access":access_token,
-                    "refresh":refresh_token
-                }
-            }
-        ), 200
+        user = User.get_user_by_username(username=data.get("username"))
 
-    return jsonify({"error":"Invalid username or password"}), 401
+        if user and (user.check_password(password=data.get("password"))):
+            access_token = create_access_token(identity=user.username)
+            refresh_token = create_refresh_token(identity=user.username)
+            return (
+                jsonify(
+                    {
+                        "message": "Logged in",
+                        "tokens": {"access": access_token, "refresh": refresh_token},
+                    }
+                ),
+                200,
+            )
+
+        return jsonify({"error": "Invalid username or password"}), 401
+
+    except Exception as e:
+        print(f"Login error: {e}")
+        return jsonify({"error": "Internal server error"}), 500
 
 @auth_bp.get('/whoami')
 @jwt_required()
