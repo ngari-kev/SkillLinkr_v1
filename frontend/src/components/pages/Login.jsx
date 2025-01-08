@@ -42,8 +42,6 @@ const Login = () => {
         console.log(resJSON);
         const tokens = resJSON.tokens;
         console.log(JSON.stringify(tokens));
-        const parsedJSON = JSON.parse(tokens);
-        console.log(JSON.stringify(parsedJSON));
         const accessToken = tokens.access;
         const refreshToken = tokens.refresh;
         localStorage.setItem("access", accessToken);
