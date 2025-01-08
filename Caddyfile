@@ -10,9 +10,9 @@ skilllinkr.ngarikev.tech {
     handle {
         root * /srv
         try_files {path} /index.html
-        file_server {
-            # Add proper MIME types for JavaScript modules
-            mime application/javascript js mjs
+        file_server
+        header Content-Type "application/javascript" {
+            path_regexp \.js$
         }
     }
 
