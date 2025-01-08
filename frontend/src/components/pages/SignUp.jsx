@@ -22,7 +22,8 @@ const SignUp = () => {
 
     const password = form.password;
     const confirmPassword = form.confirmPassword;
-    console.log(form.password, form.confirmPassword);
+    console.log(form);
+    console.log(password, confirmPassword);
 
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
@@ -181,8 +182,8 @@ const SignUp = () => {
                 </label>
                 <div className="mt-2">
                   <input
-                    id="confirm-password"
-                    name="confirm-password"
+                    id="confirmPassword"
+                    name="confirmPassword"
                     type="password"
                     required
                     autoComplete="new-password"
