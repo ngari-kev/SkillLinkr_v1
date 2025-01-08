@@ -9,8 +9,11 @@ skilllinkr.ngarikev.tech {
 
     handle {
         root * /srv
-        file_server
-        rewrite * /index.html
+        try_files {path} /index.html
+        file_server {
+            # Add proper MIME types for JavaScript modules
+            mime application/javascript js mjs
+        }
     }
 
     encode zstd gzip
@@ -24,7 +27,7 @@ skilllinkr.ngarikev.tech {
             expression {http.error.status_code} >= 500 && {http.error.status_code} < 600
         }
         handle @5xx {
-            root * /www/error_pages # Make sure you have error pages in this directory
+            root * /www/error_pages
             rewrite * /5xx.html
             file_server
         }
