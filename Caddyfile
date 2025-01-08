@@ -10,9 +10,7 @@ skilllinkr.ngarikev.tech {
     handle {
         root * /srv
         try_files {path} /index.html
-        file_server {
-            mime application/javascript js mjs
-        }
+        file_server
     }
 
     encode zstd gzip
