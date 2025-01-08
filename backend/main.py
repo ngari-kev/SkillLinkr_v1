@@ -15,7 +15,6 @@ from skills import skills_bp
 from users import user_bp
 from models import User, TokenBlockList
 from flask_cors import CORS
-from uploads import configure_cloudinary
 
 
 
