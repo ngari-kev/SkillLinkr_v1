@@ -59,10 +59,7 @@ const SignUp = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-              username: form.username,
-              password: form.password,
-            }),
+            body: JSON.stringify(form),
           },
         );
 
