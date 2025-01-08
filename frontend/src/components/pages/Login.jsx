@@ -27,7 +27,10 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ username: "mimi", password: "mimi" }),
+          body: JSON.stringify({
+            username: form.username,
+            password: form.password,
+          }),
         },
       );
 
