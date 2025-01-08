@@ -47,7 +47,7 @@ const Login = () => {
         localStorage.setItem("access", accessToken);
         localStorage.setItem("refresh", refreshToken);
         console.log("Login successful");
-        navigate("/home");
+        navigate("/");
       } else {
         const errorData = await res.json();
         console.error("Login error:", errorData.error);
