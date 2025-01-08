@@ -32,7 +32,7 @@ const Login = () => {
       console.log(form);
 
       if (res.ok) {
-        const resJSON = await res.json();
+        const resJSON = await res.text();
         console.log(resJSON);
         const accessToken = resJSON.tokens.access;
         const refreshToken = resJSON.tokens.refresh;
