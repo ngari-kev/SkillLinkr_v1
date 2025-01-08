@@ -79,12 +79,13 @@ def login_user():
 
     try:
         data = request.get_json()
-        print(f"{data}")
+        print(f"data: {data}")
 
         if not data or "username" not in data or "password" not in data:
             return jsonify({"error": "Missing username or password"}), 400
 
         user = User.get_user_by_username(username=data.get("username"))
+        print(f"user: {user}")
 
         if user and (user.check_password(password=data.get("password"))):
             access_token = create_access_token(identity=user.username)
