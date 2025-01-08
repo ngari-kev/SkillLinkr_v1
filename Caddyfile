@@ -3,25 +3,30 @@
 }
 
 skilllinkr.ngarikev.tech {
-
-    @api {
-        path /api/*
-    }
-
-    handle @api {
-        methods POST GET
-        uri strip_prefix /api
-        reverse_proxy backend:5000 {
-            header_up Host {upstream_hostport}
-        }
+    handle_path /api/* {
+        reverse_proxy backend:5000
     }
 
     handle {
         root * /srv
-        try_files {path} /index.html
         file_server
+        rewrite * /index.html
     }
 
-    # Basic compression
     encode zstd gzip
+
+    log {
+        output file /var/log/caddy/access.log
+    }
+
+    handle_errors {
+        @5xx {
+            expression {http.error.status_code} >= 500 && {http.error.status_code} < 600
+        }
+        handle @5xx {
+            root * /www/error_pages # Make sure you have error pages in this directory
+            rewrite * /5xx.html
+            file_server
+        }
+    }
 }
