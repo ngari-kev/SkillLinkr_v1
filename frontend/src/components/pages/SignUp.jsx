@@ -34,7 +34,7 @@ const SignUp = () => {
       const signUpRes = await fetch(
         "https://skilllinkr.ngarikev.tech/api/auth/register",
         {
-          method: "GET",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
@@ -42,12 +42,15 @@ const SignUp = () => {
             email: form.email,
             username: form.username,
             password: form.password,
-            confirmPassword: form.confirmPassword,
           }),
         },
       );
 
+      console.log(signUpRes);
+      console.log(form);
+
       const signUpResJSON = await signUpRes.json();
+      console.log("signupres: ", signUpRes);
 
       if (signUpRes.ok) {
         console.log("SignUp successful: ", signUpResJSON);
@@ -55,7 +58,7 @@ const SignUp = () => {
         const loginRes = await fetch(
           "https://skilllinkr.ngarikev.tech/api/auth/login",
           {
-            method: "GET",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
