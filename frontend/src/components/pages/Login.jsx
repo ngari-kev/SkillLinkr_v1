@@ -38,7 +38,7 @@ const Login = () => {
       console.log(form);
 
       if (res.ok) {
-        const resJSON = await res.text();
+        const resJSON = await res.json();
         console.log(resJSON);
         const accessToken = resJSON.tokens.access;
         const refreshToken = resJSON.tokens.refresh;
