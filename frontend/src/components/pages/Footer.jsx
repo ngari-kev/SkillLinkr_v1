@@ -27,6 +27,11 @@ const Footer = () => {
               Login
             </Link>
           )}
+          {isLoggedIn && (
+            <Link to="/profile" className="text-white hover:text-sky-200">
+              Profile
+            </Link>
+          )}
         </div>
 
         {/* Social media icons */}
