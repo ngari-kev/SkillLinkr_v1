@@ -19,7 +19,7 @@ const Profile = () => {
       }
 
       const response = await fetch(
-        "https://skilllinkr.ngarikev.tech/auth/whoami",
+        "https://skilllinkr.ngarikev.tech/api/auth/whoami",
         {
           method: "GET",
           headers: {

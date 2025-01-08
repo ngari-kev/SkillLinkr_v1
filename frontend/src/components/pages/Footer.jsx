@@ -28,7 +28,7 @@ const Footer = () => {
             </Link>
           )}
           {isLoggedIn && (
-            <Link to="/profile" className="text-white hover:text-sky-200">
+            <Link to="/whoami" className="text-white hover:text-sky-200">
               Profile
             </Link>
           )}
