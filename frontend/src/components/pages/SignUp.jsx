@@ -34,7 +34,7 @@ const SignUp = () => {
       const signUpRes = await fetch(
         "https://skilllinkr.ngarikev.tech/auth/register",
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },

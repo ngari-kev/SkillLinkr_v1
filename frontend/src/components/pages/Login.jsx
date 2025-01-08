@@ -21,7 +21,7 @@ const Login = () => {
 
     try {
       const res = await fetch("https://skilllinkr.ngarikev.tech/auth/login", {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
