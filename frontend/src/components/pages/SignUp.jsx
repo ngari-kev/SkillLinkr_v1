@@ -55,11 +55,14 @@ const SignUp = () => {
         const loginRes = await fetch(
           "https://skilllinkr.ngarikev.tech/auth/login",
           {
-            method: "POST",
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(form),
+            body: JSON.stringify({
+              username: form.username,
+              password: form.password,
+            }),
           },
         );
 
