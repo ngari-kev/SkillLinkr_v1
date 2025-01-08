@@ -40,8 +40,9 @@ const Login = () => {
       if (res.ok) {
         const resJSON = await res.json();
         console.log(resJSON);
-        const accessToken = resJSON.tokens.access;
-        const refreshToken = resJSON.tokens.refresh;
+        const parsedJSON = JSON.parse(resJSON);
+        const accessToken = parsedJSON.tokens.access;
+        const refreshToken = parsedJSON.tokens.refresh;
         localStorage.setItem("access", accessToken);
         localStorage.setItem("refresh", refreshToken);
         console.log("Login successful");
