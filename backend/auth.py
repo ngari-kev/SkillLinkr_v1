@@ -135,10 +135,9 @@ def refresh_access():
     })
 
 @auth_bp.get('/logout')
-@jwt_required()
+@jwt_required(refresh=True)
 def logout_user():
     jti = get_jwt()['jti']
-    # jti = jwt['jti']
     token_to_blacklist = TokenBlockList(jti=jti)
     token_to_blacklist.save()
 

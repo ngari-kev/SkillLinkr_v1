@@ -68,7 +68,7 @@ class TokenBlockList(db.Model):
 
 class Skill(db.Model):
     __tablename__ = 'skills'
-    id = db.Column(db.String(), primary_key=True, default = str(uuid4()))
+    id = db.Column(db.String(), primary_key=True, default = lambda: str(uuid4()))
     name = db.Column(db.String(50), unique=True, nullable=False)
 
     def __repr__(self):
