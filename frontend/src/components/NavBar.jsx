@@ -18,8 +18,8 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="flex items-center w-full px-4 py-2">
-      <div className="flex items-center">
+    <nav className="flex justify-evenly w-full px-3 py-2">
+      <div className="flex items-center w-full">
         {/* Logo would go here */}
         <div className="flex items-center space-x-12">
           <Link to="/" className="text-sky-900 font-bold hover:text-sky-500">
@@ -48,17 +48,17 @@ const NavBar = () => {
         </div>
       </div>
 
-      <div className="ml-auto flex items-center space-x-6">
+      <div className="ml-0 flex justify-evenly space-x-12 pr-8 min-w-[500px]">
         {!isLoggedIn ? (
           <>
             <Link
               to="/login"
-              className="text-sky-900 font-bold hover:text-sky-500"
+              className="x-10 py-3 text-sky-900 font-bold hover:text-sky-500 ml-auto"
             >
               Log in
             </Link>
             <Link
-              to="/signup"
+              to="/signup"ml-0 flex justify-evenly space-x-6 pr-8
               className="px-10 py-3 text-white bg-sky-500 font-bold rounded-md hover:bg-sky-700 hover:text-white"
             >
               Get started
