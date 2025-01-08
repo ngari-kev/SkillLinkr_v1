@@ -20,16 +20,19 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const res = await fetch("https://skilllinkr.ngarikev.tech/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "https://skilllinkr.ngarikev.tech/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: form.username,
+            password: form.password,
+          }),
         },
-        body: JSON.stringify({
-          username: form.username,
-          password: form.password,
-        }),
-      });
+      );
 
       console.log(res);
       console.log(form);
