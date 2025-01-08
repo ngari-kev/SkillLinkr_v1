@@ -15,13 +15,16 @@ const NavBar = () => {
     }
 
     try {
-      const response = await fetch("/logout", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "X-Refresh-Token": refreshToken,
+      const response = await fetch(
+        "https://skilllinkr.ngarikev.tech/api/auth/logout",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "X-Refresh-Token": refreshToken,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
