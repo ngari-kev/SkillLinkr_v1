@@ -59,7 +59,7 @@ const NavBar = () => {
           </Link>
           {isLoggedIn && (
             <Link
-              to="/whoami"
+              to="/profile"
               className="text-sky-900 font-bold hover:text-sky-500"
             >
               Profile
