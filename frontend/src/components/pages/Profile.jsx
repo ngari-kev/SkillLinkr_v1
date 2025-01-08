@@ -21,15 +21,11 @@ const Profile = () => {
       const response = await fetch(
         "https://skilllinkr.ngarikev.tech/api/auth/whoami",
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify({
-            username: form.username,
-            password: form.email,
-          }),
         },
       );
       console.log("response: ", JSON.stringify(response));
