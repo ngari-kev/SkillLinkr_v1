@@ -77,7 +77,7 @@ const SignUp = () => {
           localStorage.setItem("access", accessToken);
           localStorage.setItem("refresh", refreshToken);
           console.log("Login successful");
-          navigate("/profile");
+          navigate("/");
         } else {
           console.error("Automatic login error:", loginResJSON.error);
           setError("Automatic login failed.");
