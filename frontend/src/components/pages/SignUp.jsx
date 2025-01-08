@@ -32,7 +32,7 @@ const SignUp = () => {
 
     try {
       const signUpRes = await fetch(
-        "https://skilllinkr.ngarikev.tech/auth/register",
+        "https://skilllinkr.ngarikev.tech/api/auth/register",
         {
           method: "GET",
           headers: {
@@ -53,7 +53,7 @@ const SignUp = () => {
         console.log("SignUp successful: ", signUpResJSON);
 
         const loginRes = await fetch(
-          "https://skilllinkr.ngarikev.tech/auth/login",
+          "https://skilllinkr.ngarikev.tech/api/auth/login",
           {
             method: "GET",
             headers: {

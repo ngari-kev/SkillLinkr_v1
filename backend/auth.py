@@ -63,7 +63,7 @@ def register_user():
 
     return jsonify ({"message":"User created"}), 201
 
-@auth_bp.route('/login', methods=['POST', 'GET'])
+@auth_bp.route('/login', methods=['POST'])
 def login_user():
     """
         Handles user authentication.
