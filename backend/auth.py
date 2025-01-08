@@ -25,7 +25,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
 
 auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.post('/register')
+@auth_bp.route('/register', )
 def register_user():
     """
         Handles user registration.
