@@ -138,7 +138,6 @@ def refresh_access():
 @jwt_required()
 def logout_user():
     try:
-        # Add the access token to the blocklist
         access_jti = get_jwt()['jti']
         access_token_blacklist = TokenBlockList(jti=access_jti)
         access_token_blacklist.save()
