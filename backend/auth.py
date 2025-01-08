@@ -88,16 +88,10 @@ def login_user():
         if user and (user.check_password(password=data.get("password"))):
             access_token = create_access_token(identity=user.username)
             refresh_token = create_refresh_token(identity=user.username)
-            return (
-                jsonify(
-                    {
-                        "message": "Logged in",
-                        "tokens": {"access": access_token, "refresh": refresh_token},
-                    }
-                ),
-                200,
-            )
-
+            return (jsonify({
+                "message": "Logged in",
+                "tokens": {"access": access_token, "refresh": refresh_token},
+            }), 200)
         return jsonify({"error": "Invalid username or password"}), 401
 
     except Exception as e:
