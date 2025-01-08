@@ -79,6 +79,7 @@ def login_user():
 
     try:
         data = request.get_json()
+        print(f"{data}")
 
         if not data or "username" not in data or "password" not in data:
             return jsonify({"error": "Missing username or password"}), 400
