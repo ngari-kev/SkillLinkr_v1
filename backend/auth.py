@@ -21,7 +21,7 @@ Routes:
 
 from flask import Blueprint, jsonify, request
 from models import User, TokenBlockList
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, current_user, get_jwt_identity, get_jwt
+from flask_jwt_extended import decode_token, create_access_token, create_refresh_token, jwt_required, current_user, get_jwt_identity, get_jwt
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -135,12 +135,25 @@ def refresh_access():
     })
 
 @auth_bp.get('/logout')
-@jwt_required(refresh=True)
+@jwt_required()
 def logout_user():
-    jti = get_jwt()['jti']
-    token_to_blacklist = TokenBlockList(jti=jti)
-    token_to_blacklist.save()
+    # Blacklist access token
+    access_jti = get_jwt()['jti']
+    access_token_blacklist = TokenBlockList(jti=access_jti)
+    access_token_blacklist.save()
+
+    # Also blacklist refresh token if provided
+    refresh_token = request.headers.get('X-Refresh-Token')
+    if refresh_token:
+        try:
+            refresh_claims = decode_token(refresh_token)
+            refresh_jti = refresh_claims['jti']
+            refresh_token_blacklist = TokenBlockList(jti=refresh_jti)
+            refresh_token_blacklist.save()
+        except:
+            # If refresh token is invalid, just continue with the logout
+            pass
 
     return jsonify({
-        "message":"Logged out sucessfully"
+        "message": "Logged out successfully"
     }), 200

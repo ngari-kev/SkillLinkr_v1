@@ -18,47 +18,52 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between px-4 py-2">
-      <div className="flex space-x-8">
-        <Link to="/" className="text-sky-900 font-bold hover:text-sky-500">
-          Home
-        </Link>
-        <Link to="/about" className="text-sky-900 font-bold hover:text-sky-500">
-          About
-        </Link>
-        <Link
-          to="/marketplace"
-          className="text-sky-900 font-bold hover:text-sky-500"
-        >
-          Marketplace
-        </Link>
-        {!isLoggedIn && (
+    <nav className="flex items-center w-full px-4 py-2">
+      <div className="flex items-center">
+        {/* Logo would go here */}
+        <div className="flex items-center space-x-12">
+          <Link to="/" className="text-sky-900 font-bold hover:text-sky-500">
+            Home
+          </Link>
           <Link
-            to="/login"
+            to="/about"
             className="text-sky-900 font-bold hover:text-sky-500"
           >
-            Log in
+            About
           </Link>
-        )}
-        {isLoggedIn && (
           <Link
-            to="/profile"
+            to="/marketplace"
             className="text-sky-900 font-bold hover:text-sky-500"
           >
-            Profile
+            Marketplace
           </Link>
-        )}
+          {isLoggedIn && (
+            <Link
+              to="/profile"
+              className="text-sky-900 font-bold hover:text-sky-500"
+            >
+              Profile
+            </Link>
+          )}
+        </div>
       </div>
 
-      {/* Right side buttons */}
-      <div>
+      <div className="ml-auto flex items-center space-x-6">
         {!isLoggedIn ? (
-          <Link
-            to="/signup"
-            className="px-10 py-3 text-white bg-sky-500 font-bold rounded-md hover:bg-sky-700 hover:text-white"
-          >
-            Get started
-          </Link>
+          <>
+            <Link
+              to="/login"
+              className="text-sky-900 font-bold hover:text-sky-500"
+            >
+              Log in
+            </Link>
+            <Link
+              to="/signup"
+              className="px-10 py-3 text-white bg-sky-500 font-bold rounded-md hover:bg-sky-700 hover:text-white"
+            >
+              Get started
+            </Link>
+          </>
         ) : (
           <button
             onClick={handleLogout}
