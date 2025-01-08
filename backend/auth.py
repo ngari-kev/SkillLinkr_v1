@@ -137,12 +137,15 @@ def refresh_access():
 @auth_bp.get('/logout')
 @jwt_required()
 def logout_user():
-    # Blacklist access token
-    access_jti = get_jwt()['jti']
-    access_token_blacklist = TokenBlockList(jti=access_jti)
-    access_token_blacklist.save()
+    try:
+        # Add the access token to the blocklist
+        access_jti = get_jwt()['jti']
+        access_token_blacklist = TokenBlockList(jti=access_jti)
+        access_token_blacklist.save()
+    except Exception as e:
+        print(f"Error saving access token to blocklist: {e}")
+        return jsonify({"message": "Error during logout"}), 500
 
-    # Also blacklist refresh token if provided
     refresh_token = request.headers.get('X-Refresh-Token')
     if refresh_token:
         try:
@@ -150,10 +153,8 @@ def logout_user():
             refresh_jti = refresh_claims['jti']
             refresh_token_blacklist = TokenBlockList(jti=refresh_jti)
             refresh_token_blacklist.save()
-        except:
-            # If refresh token is invalid, just continue with the logout
+        except Exception as e:
+            print(f"Error decoding or saving refresh token: {e}")
             pass
 
-    return jsonify({
-        "message": "Logged out successfully"
-    }), 200
+    return jsonify({"message": "Logged out successfully"}), 200

@@ -7,13 +7,34 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    const accessToken = localStorage.getItem("access");
+    const refreshToken = localStorage.getItem("refresh");
+
+    if (!accessToken || !refreshToken) {
+      console.error("Tokens not found in localStorage");
+      return;
+    }
+
     try {
-      await logoutUser();
+      const response = await fetch("/logout", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "X-Refresh-Token": refreshToken,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to logout");
+      }
+
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
       navigate("/login");
+      console.log("Logged out successfully");
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error("Logout failed:", error.message);
     }
   };
 
@@ -58,7 +79,12 @@ const NavBar = () => {
               Log in
             </Link>
             <Link
-              to="/signup"ml-0 flex justify-evenly space-x-6 pr-8
+              to="/signup"
+              ml-0
+              flex
+              justify-evenly
+              space-x-6
+              pr-8
               className="px-10 py-3 text-white bg-sky-500 font-bold rounded-md hover:bg-sky-700 hover:text-white"
             >
               Get started
