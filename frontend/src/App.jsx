@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AuthWrapper from "./components/AuthWrapper";
-import Chat from "./components/Chat";
 import Login from "./components/pages/Login";
 import SignUp from "./components/pages/SignUp";
 import Home from "./components/pages/Home";
@@ -30,14 +29,6 @@ function App() {
           element={
             <AuthWrapper>
               <Marketplace />
-            </AuthWrapper>
-          }
-        />
-        <Route
-          path="/chat"
-          element={
-            <AuthWrapper>
-              <Chat />
             </AuthWrapper>
           }
         />

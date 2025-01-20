@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaComment } from "react-icons/fa";
 
 const NavBar = () => {
   const isLoggedIn = !!localStorage.getItem("access");
@@ -78,20 +77,12 @@ const NavBar = () => {
             Marketplace
           </Link>
           {isLoggedIn && (
-            <>
-              <Link
-                to="/chat"
-                className="text-sky-900 font-bold hover:text-sky-500"
-              >
-                <FaComment className="w-6 h-6" />
-              </Link>
-              <Link
-                to="/profile"
-                className="text-sky-900 font-bold hover:text-sky-500"
-              >
-                Profile
-              </Link>
-            </>
+            <Link
+              to="/profile"
+              className="text-sky-900 font-bold hover:text-sky-500"
+            >
+              Profile
+            </Link>
           )}
         </div>
       </div>
@@ -107,6 +98,11 @@ const NavBar = () => {
             </Link>
             <Link
               to="/signup"
+              ml-0
+              flex
+              justify-evenly
+              space-x-6
+              pr-8
               className="px-10 py-3 text-white bg-sky-500 font-bold rounded-md hover:bg-sky-700 hover:text-white"
             >
               Get started
