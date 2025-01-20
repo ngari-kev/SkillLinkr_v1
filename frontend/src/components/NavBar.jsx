@@ -6,15 +6,16 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const accessToken = localStorage.getItem("access");
-    const refreshToken = localStorage.getItem("refresh");
-
-    if (!accessToken || !refreshToken) {
-      console.error("Tokens not found in localStorage");
-      return;
-    }
-
     try {
+      const accessToken = localStorage.getItem("access");
+      const refreshToken = localStorage.getItem("refresh");
+
+      if (!accessToken && !refreshToken) {
+        localStorage.clear();
+        navigate("/login");
+        return;
+      }
+
       const response = await fetch(
         "https://skilllinkr.ngarikev.tech/api/auth/logout",
         {
@@ -26,17 +27,32 @@ const NavBar = () => {
         },
       );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to logout");
+      if (response.status === 401) {
+        const refreshResponse = await fetch(
+          "https://skilllinkr.ngarikev.tech/api/auth/refresh",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          },
+        );
+
+        if (refreshResponse.ok) {
+          const refreshData = await refreshResponse.json();
+          localStorage.setItem("access", refreshData.access_token);
+
+          await handleLogout();
+          return;
+        }
       }
 
-      localStorage.removeItem("access");
-      localStorage.removeItem("refresh");
+      localStorage.clear();
       navigate("/login");
-      console.log("Logged out successfully");
     } catch (error) {
-      console.error("Logout failed:", error.message);
+      console.error("Logout failed:", error);
+      localStorage.clear();
+      navigate("/login");
     }
   };
 

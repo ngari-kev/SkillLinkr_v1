@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { authenticatedFetch } from "../../utils/api";
 import Header from "../Header";
 import Footer from "./Footer";
 
@@ -13,22 +14,10 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     try {
-      const accessToken = localStorage.getItem("access");
-      if (!accessToken) {
-        throw new Error("Access token not found");
-      }
-
-      const response = await fetch(
+      const response = await authenticatedFetch(
         "https://skilllinkr.ngarikev.tech/api/auth/whoami",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
       );
-      console.log("response: ", JSON.stringify(response));
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -37,6 +26,9 @@ const Profile = () => {
       setUser(data);
     } catch (error) {
       setError(error.message);
+      if (error.message.includes("Session expired")) {
+        navigate("/login");
+      }
     } finally {
       setLoading(false);
     }
