@@ -44,3 +44,4 @@ networks:
 volumes:
   caddy_data:
   caddy_config:
+  skilllinkr_db:
