@@ -7,6 +7,8 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [newSkill, setNewSkill] = useState("");
+  const [skillError, setSkillError] = useState("");
 
   useEffect(() => {
     fetchProfile();
@@ -34,6 +36,59 @@ const Profile = () => {
     }
   };
 
+  const handleAddSkill = async (e) => {
+    e.preventDefault();
+    setSkillError("");
+
+    if (!newSkill.trim()) {
+      setSkillError("Skill name cannot be empty");
+      return;
+    }
+
+    try {
+      const response = await authenticatedFetch(
+        "https://skilllinkr.ngarikev.tech/api/skills/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ skill_name: newSkill.trim() }),
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to add skill");
+      }
+
+      await fetchProfile();
+      setNewSkill("");
+    } catch (error) {
+      setSkillError(error.message);
+    }
+  };
+
+  const handleRemoveSkill = async (skillName) => {
+    try {
+      const response = await authenticatedFetch(
+        `https://skilllinkr.ngarikev.tech/api/skills/remove/${skillName}`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to remove skill");
+      }
+
+      await fetchProfile();
+    } catch (error) {
+      setSkillError(error.message);
+    }
+  };
+
   if (loading) return <div className="text-center mt-20">Loading...</div>;
   if (error)
     return <div className="text-center mt-20 text-red-500">{error}</div>;
@@ -51,17 +106,53 @@ const Profile = () => {
             <h2 className="text-xl font-bold text-sky-900 mb-2">
               {user.username}
             </h2>
+            <p className="text-sky-700 mb-6">{user.email}</p>
+
+            {/* Add Skill Form */}
+            <form onSubmit={handleAddSkill} className="mb-6">
+              <div className="flex flex-col items-center space-y-4">
+                <input
+                  type="text"
+                  value={newSkill}
+                  onChange={(e) => setNewSkill(e.target.value)}
+                  placeholder="Enter new skill"
+                  className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
+                />
+                <button
+                  type="submit"
+                  className="bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-sky-600 transition-colors"
+                >
+                  Add Skill
+                </button>
+                {skillError && (
+                  <p className="text-red-500 text-sm">{skillError}</p>
+                )}
+              </div>
+            </form>
+
+            {/* Skills List */}
             <div className="mt-6">
-              <h3 className="text-lg font-bold text-sky-900 mb-2">Skills:</h3>
+              <h3 className="text-lg font-bold text-sky-900 mb-4">
+                My Skills:
+              </h3>
               <div className="flex flex-wrap gap-2 justify-center">
                 {user.skills?.map((skill) => (
-                  <span
+                  <div
                     key={skill.name}
-                    className="bg-sky-100 px-3 py-1 rounded-full text-sky-900"
+                    className="bg-sky-100 px-3 py-1 rounded-full text-sky-900 flex items-center"
                   >
-                    {skill.name}
-                  </span>
+                    <span>{skill.name}</span>
+                    <button
+                      onClick={() => handleRemoveSkill(skill.name)}
+                      className="ml-2 text-red-500 hover:text-red-700"
+                    >
+                      ×
+                    </button>
+                  </div>
                 ))}
+                {user.skills?.length === 0 && (
+                  <p className="text-gray-500">No skills added yet</p>
+                )}
               </div>
             </div>
           </div>
