@@ -75,8 +75,7 @@ const Marketplace = () => {
       console.error(err);
     } finally {
       setLoading(false);
-    }
-  };
+    };
 
   const currentData = isSearchActive ? searchResults : users;
   const indexOfLastItem = currentPage * itemsPerPage;
