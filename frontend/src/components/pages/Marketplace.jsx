@@ -41,6 +41,7 @@ const Marketplace = () => {
   const handleSearch = async (searchQuery, matchAll) => {
     if (!searchQuery.trim()) {
       setIsSearchActive(false);
+      setSearchResults([]);
       return;
     }
 
