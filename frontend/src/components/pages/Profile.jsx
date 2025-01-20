@@ -9,11 +9,11 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const [newSkill, setNewSkill] = useState("");
   const [skillError, setSkillError] = useState("");
-  const [skills, setSkills] = useState([]); // Add this line
+  const [skills, setSkills] = useState([]);
 
   useEffect(() => {
     fetchProfile();
-    fetchSkills(); // Add this line
+    fetchSkills();
   }, []);
 
   const fetchProfile = async () => {
@@ -39,7 +39,6 @@ const Profile = () => {
     }
   };
 
-  // Add this function to fetch skills
   const fetchSkills = async () => {
     try {
       const response = await authenticatedFetch(
@@ -85,7 +84,7 @@ const Profile = () => {
         throw new Error(errorData.error || "Failed to add skill");
       }
 
-      await fetchSkills(); // Update to use fetchSkills instead of fetchProfile
+      await fetchSkills();
       setNewSkill("");
     } catch (error) {
       setSkillError(error.message);
@@ -106,7 +105,7 @@ const Profile = () => {
         throw new Error(errorData.error || "Failed to remove skill");
       }
 
-      await fetchSkills(); // Update to use fetchSkills instead of fetchProfile
+      await fetchSkills();
     } catch (error) {
       setSkillError(error.message);
     }
