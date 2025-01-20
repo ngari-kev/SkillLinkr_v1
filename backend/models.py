@@ -87,6 +87,5 @@ class ChatMessage(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     read = db.Column(db.Boolean, default=False)
-
-    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
-    recipient = db.relationship('User', foreign_keys=[recipient_id], backref='received_messages')
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_chats')
+    recipient = db.relationship('User', foreign_keys=[recipient_id], backref='received_chats')

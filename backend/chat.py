@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, current_user
 from models import ChatMessage, User, db
-from datetime import datetime
 
 chat_bp = Blueprint('chat', __name__)
 
@@ -59,9 +58,6 @@ def get_conversations():
 def get_messages(user_id):
     """Get chat history with a specific user"""
     try:
-        if user_id == str(current_user.id):
-            return jsonify({'error': 'Cannot chat with yourself'}), 400
-
         messages = ChatMessage.query.filter(
             ((ChatMessage.sender_id == current_user.id) &
              (ChatMessage.recipient_id == user_id)) |
@@ -93,9 +89,6 @@ def get_messages(user_id):
 def send_message(user_id):
     """Send a message to a specific user"""
     try:
-        if user_id == str(current_user.id):
-            return jsonify({'error': 'Cannot send message to yourself'}), 400
-
         data = request.get_json()
         content = data.get('content')
 
@@ -122,26 +115,6 @@ def send_message(user_id):
                 'is_sender': True
             }
         }), 201
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@chat_bp.route('/user/<user_id>', methods=['GET'])
-@jwt_required()
-def get_user_for_chat(user_id):
-    """Get user details for chat"""
-    try:
-        if user_id == str(current_user.id):
-            return jsonify({'error': 'Cannot chat with yourself'}), 400
-
-        user = User.query.get(user_id)
-        if not user:
-            return jsonify({'error': 'User not found'}), 404
-
-        return jsonify({
-            'id': user.id,
-            'username': user.username
-        }), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
