@@ -80,16 +80,16 @@ const NavBar = () => {
           {isLoggedIn && (
             <>
               <Link
-                to="/chat"
-                className="text-sky-900 font-bold hover:text-sky-500"
-              >
-                <FaComment className="w-6 h-6" />
-              </Link>
-              <Link
                 to="/profile"
                 className="text-sky-900 font-bold hover:text-sky-500"
               >
                 Profile
+              </Link>
+              <Link
+                to="/chat"
+                className="text-sky-900 font-bold hover:text-sky-500"
+              >
+                <FaComment className="w-6 h-6" />
               </Link>
             </>
           )}
