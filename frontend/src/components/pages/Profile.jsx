@@ -9,9 +9,11 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const [newSkill, setNewSkill] = useState("");
   const [skillError, setSkillError] = useState("");
+  const [skills, setSkills] = useState([]); // Add this line
 
   useEffect(() => {
     fetchProfile();
+    fetchSkills(); // Add this line
   }, []);
 
   const fetchProfile = async () => {
@@ -25,6 +27,7 @@ const Profile = () => {
       }
 
       const data = await response.json();
+      console.log("Profile data:", data);
       setUser(data);
     } catch (error) {
       setError(error.message);
@@ -33,6 +36,26 @@ const Profile = () => {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Add this function to fetch skills
+  const fetchSkills = async () => {
+    try {
+      const response = await authenticatedFetch(
+        "https://skilllinkr.ngarikev.tech/api/skills/my-skills",
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Skills data:", data);
+      setSkills(data.skills || []);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+      setSkillError("Failed to fetch skills");
     }
   };
 
@@ -62,7 +85,7 @@ const Profile = () => {
         throw new Error(errorData.error || "Failed to add skill");
       }
 
-      await fetchProfile();
+      await fetchSkills(); // Update to use fetchSkills instead of fetchProfile
       setNewSkill("");
     } catch (error) {
       setSkillError(error.message);
@@ -83,7 +106,7 @@ const Profile = () => {
         throw new Error(errorData.error || "Failed to remove skill");
       }
 
-      await fetchProfile();
+      await fetchSkills(); // Update to use fetchSkills instead of fetchProfile
     } catch (error) {
       setSkillError(error.message);
     }
@@ -136,21 +159,22 @@ const Profile = () => {
                 My Skills:
               </h3>
               <div className="flex flex-wrap gap-2 justify-center">
-                {user.skills?.map((skill) => (
-                  <div
-                    key={skill.name}
-                    className="bg-sky-100 px-3 py-1 rounded-full text-sky-900 flex items-center"
-                  >
-                    <span>{skill.name}</span>
-                    <button
-                      onClick={() => handleRemoveSkill(skill.name)}
-                      className="ml-2 text-red-500 hover:text-red-700"
+                {skills.length > 0 ? (
+                  skills.map((skill) => (
+                    <div
+                      key={skill.name}
+                      className="bg-sky-100 px-3 py-1 rounded-full text-sky-900 flex items-center"
                     >
-                      ×
-                    </button>
-                  </div>
-                ))}
-                {user.skills?.length === 0 && (
+                      <span>{skill.name}</span>
+                      <button
+                        onClick={() => handleRemoveSkill(skill.name)}
+                        className="ml-2 text-red-500 hover:text-red-700"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))
+                ) : (
                   <p className="text-gray-500">No skills added yet</p>
                 )}
               </div>
