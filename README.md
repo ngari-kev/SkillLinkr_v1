@@ -8,7 +8,7 @@
 - **Deployed Site**: [Visit SkillLinkr](https://skilllinkr.netlify.app/)
 - **Project Blog Article**: [SkillLinkr Project Blog](https://blog.skilllinkr.com/final-project)
 - **Author(s)**:
-  - [Kyenpya Gutap](https://www.linkedin.com/in/johndoe/)
+  - [Kyenpya Gutap](https://www.linkedin.com/in/kyenpya-gutap-957538138)
   - [Kelvin Mukaria](https://www.linkedin.com/in/v3k)
 
 ## Screenshot
