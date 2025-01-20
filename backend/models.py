@@ -77,3 +77,15 @@ class Skill(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+
+class ChatMessage(db.Model):
+    __tablename__ = 'chat_messages'
+    id = db.Column(db.String(), primary_key=True, default=lambda: str(uuid4()))
+    sender_id = db.Column(db.String(), db.ForeignKey('users.id'), nullable=False)
+    recipient_id = db.Column(db.String(), db.ForeignKey('users.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    read = db.Column(db.Boolean, default=False)
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_chats')
+    recipient = db.relationship('User', foreign_keys=[recipient_id], backref='received_chats')
