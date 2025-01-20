@@ -12,7 +12,6 @@ from flask import Flask
 from flask.json import jsonify
 from extensions import db, jwt
 from auth import auth_bp
-from chat import chat_bp
 from skills import skills_bp
 from users import user_bp
 from models import User, TokenBlockList
@@ -49,7 +48,6 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(user_bp, url_prefix='/users')
     app.register_blueprint(skills_bp, url_prefix='/skills')
-    app.register_blueprint(chat_bp, url_prefix='chat')
 
     #load user
     @jwt.user_lookup_loader

@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaComment } from "react-icons/fa";
 import Header from "../Header";
 import Footer from "./Footer";
 import SearchBar from "../SearchBar";
 import { authenticatedFetch } from "../../utils/api";
 
 const Marketplace = () => {
-  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,10 +87,6 @@ const Marketplace = () => {
     setIsSearchActive(false);
     setSearchResults([]);
     setCurrentPage(1);
-  };
-
-  const handleChatClick = (userId) => {
-    navigate("chat?userId=${userId}");
   };
 
   return (
