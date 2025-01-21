@@ -14,6 +14,7 @@ from extensions import db, jwt
 from auth import auth_bp
 from skills import skills_bp
 from users import user_bp
+from chat import socketio
 from models import User, TokenBlockList
 from flask_cors import CORS
 
@@ -28,7 +29,15 @@ def create_app():
     """
     '''Create a new Flask application instance'''
     app = Flask(__name__)
-    CORS(app, resources={r"/auth/*": {"origins": "https://skilllinkr.ngarikev.tech"}})
+    CORS(app, resources={r"/auth/*": {"origins":
+        "https://skilllinkr.ngarikev.tech"},
+        r"/socket.io/*": {
+            "origins": "https://skilllinkr.ngarikev.tech",
+                        "allow_headers": ["Content-Type", "Authorization"],
+                        "methods": ["GET", "POST", "OPTIONS"],
+                        "supports_credentials": True
+        }
+    })
 
     # Load environment variables prefixed with "FLASK_" from .env file
     # Example: FLASK_SECRET_KEY=xyz will be loaded as app.config["SECRET_KEY"]
@@ -38,6 +47,7 @@ def create_app():
     # This connects the database instance to this specific Flask app
     db.init_app(app)
     jwt.init_app(app)
+    socketio.init_app(app, cors_allowed_origins="https://skilllinkr.ngarikev.tech")
 
     #health check for server
     @app.route('/health')
@@ -156,4 +166,4 @@ def create_app():
 app = create_app()
 
 if __name__ == '__main__':
-    app.run()
+    socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)

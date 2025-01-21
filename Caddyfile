@@ -7,6 +7,17 @@ skilllinkr.ngarikev.tech {
         reverse_proxy backend:5000
     }
 
+    handle_path /socket.io/* {
+        reverse_proxy backend:5000 {
+            transport http {
+                versions h1
+            }
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+        }
+    }
+
+
     handle {
         root * /srv
         try_files {path} /index.html
@@ -28,5 +39,6 @@ skilllinkr.ngarikev.tech {
             rewrite * /5xx.html
             file_server
         }
+
     }
 }
