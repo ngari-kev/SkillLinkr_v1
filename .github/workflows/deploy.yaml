@@ -39,4 +39,5 @@ jobs:
             cd SkillLinkr
             docker compose down
             docker compose build --no-cache
+            docker compose run --rm backend python create_test_data.py
             docker compose up -d
