@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Chat from "./Chat";
 
 const AuthWrapper = ({ children }) => {
   const navigate = useNavigate();
@@ -55,7 +56,12 @@ const AuthWrapper = ({ children }) => {
     checkAuth();
   }, [navigate]);
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <Chat />;
+    </>
+  );
 };
 
 export default AuthWrapper;
