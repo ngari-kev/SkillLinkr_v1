@@ -20,7 +20,11 @@ const Chat = () => {
 
     const newSocket = io("https://skilllinkr.ngarikev.tech", {
       path: "/socket.io/",
-      transports: ["websocket"],
+      transports: ["websocket", "polling"],
+      upgrade: true,
+      rememberUpgrade: true,
+      secure: true,
+      rejectUnauthorized: false,
       query: { token },
       withCredentials: true,
     });
