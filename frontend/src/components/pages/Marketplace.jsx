@@ -101,9 +101,6 @@ const Marketplace = () => {
           {/* Search Bar Component */}
           <SearchBar onSearch={handleSearch} />
 
-          {/* Search Active Indicator */}
-          <SearchBar onSearch={handleSearch} />
-
           {isSearchActive && (
             <div className="flex justify-center mb-4">
               <button
