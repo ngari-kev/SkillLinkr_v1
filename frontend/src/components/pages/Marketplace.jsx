@@ -142,9 +142,11 @@ const Marketplace = () => {
                     <p className="text-white">{user.email}</p>
                   </div>
                   <div className="mt-4">
-                    <h5 className="font-semibold text-white mb-2">Skills:</h5>
+                    <h5 className="font-semibold text-white mb-2">
+                      Matching Skills:
+                    </h5>
                     <div className="flex flex-wrap gap-2">
-                      {user.skills?.map((skill, index) => (
+                      {user.matching_skills?.map((skill, index) => (
                         <span
                           key={index}
                           className="bg-sky-200 text-sky-800 px-2 py-1 rounded-full text-sm"
