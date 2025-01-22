@@ -10,8 +10,13 @@ const Chat = () => {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
+    console.log("Initilaizing chat...");
     const token = localStorage.getItem("access");
-    if (!token) return;
+    if (!token) {
+      console.log("No token found");
+      return;
+    }
+    console.log("Found Token: ", token);
 
     const newSocket = io("https://skilllinkr.ngarikev.tech", {
       path: "/socket.io/",
