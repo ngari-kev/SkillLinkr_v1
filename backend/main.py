@@ -29,13 +29,15 @@ def create_app():
     """
     '''Create a new Flask application instance'''
     app = Flask(__name__)
-    CORS(app, resources={r"/auth/*": {"origins":
+    CORS(app, resources={
+        r"/auth/*": {"origins":
         "https://skilllinkr.ngarikev.tech"},
         r"/socket.io/*": {
-            "origins": "https://skilllinkr.ngarikev.tech",
-                        "allow_headers": ["Content-Type", "Authorization"],
-                        "methods": ["GET", "POST", "OPTIONS"],
-                        "supports_credentials": True
+            "origins": ["https://skilllinkr.ngarikev.tech"],
+            "allow_headers": ["*"],
+            "expose_headers":["*"],
+            "methods": ["GET", "POST", "OPTIONS"],
+            "supports_credentials": True
         }
     })
 
@@ -47,7 +49,13 @@ def create_app():
     # This connects the database instance to this specific Flask app
     db.init_app(app)
     jwt.init_app(app)
-    socketio.init_app(app, cors_allowed_origins="https://skilllinkr.ngarikev.tech")
+    socketio.init_app(app,
+        cors_allowed_origins=["https://skilllinkr.ngarikev.tech"],
+        ping_timeour=5000,
+        ping_interval=25000,
+        async_mode="gevent",
+        websocket=True
+    )
 
     #health check for server
     @app.route('/health')

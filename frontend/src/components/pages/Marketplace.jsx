@@ -17,6 +17,11 @@ const Marketplace = () => {
     fetchUsers();
   }, []);
 
+  /**
+   * @function fetchUsers
+   * Asynchronously fetches all users from the API
+   * Updates users state and handles loading/error states
+   */
   const fetchUsers = async () => {
     setLoading(true);
     try {
@@ -38,6 +43,12 @@ const Marketplace = () => {
     }
   };
 
+  /**
+   * @function handleSearch
+   * @param {string} searchQuery - Comma-separated list of skills to search for
+   * @param {boolean} matchAll - Whether to match all skills or any skill
+   * Performs search based on skills and updates search results
+   */
   const handleSearch = async (searchQuery, matchAll) => {
     if (!searchQuery.trim()) {
       setIsSearchActive(false);
@@ -81,8 +92,17 @@ const Marketplace = () => {
   const currentItems = currentData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(currentData.length / itemsPerPage);
 
+  /**
+   * @function paginate
+   * @param {number} pageNumber - Page number to navigate to
+   * Updates currentPage state for pagination
+   */
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  /**
+   * @function handleResetSearch
+   * Resets search state and results
+   */
   const handleResetSearch = () => {
     setIsSearchActive(false);
     setSearchResults([]);
@@ -104,10 +124,7 @@ const Marketplace = () => {
           {isSearchActive && (
             <div className="flex justify-center mb-4">
               <button
-                onClick={() => {
-                  setIsSearchActive(false);
-                  setSearchResults([]);
-                }}
+                onClick={handleResetSearch}
                 className="text-sky-600 hover:text-sky-800 underline"
               >
                 Clear Search Results
