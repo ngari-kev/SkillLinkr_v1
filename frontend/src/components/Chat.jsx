@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
+/**
+ * Chat component that provides real-time messaging functionality
+ * @component
+ */
 const Chat = () => {
+  // State management for chat functionality
   const [socket, setSocket] = useState(null);
   const [message, setMessage] = useState("");
   const [activeUsers, setActiveUsers] = useState([]);
@@ -9,6 +14,9 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [connected, setConnected] = useState(false);
 
+  /**
+   * Initialize WebSocket connection and event handlers
+   */
   useEffect(() => {
     console.log("Initilaizing chat...");
     const token = localStorage.getItem("access");
@@ -18,9 +26,10 @@ const Chat = () => {
     }
     console.log("Found Token: ", token);
 
+    // Initialize Socket.IO connection with configuration
     const newSocket = io("https://skilllinkr.ngarikev.tech", {
       path: "/socket.io/",
-      transports: ["websocket", "polling"],
+      transports: ["websocket"],
       upgrade: true,
       rememberUpgrade: true,
       secure: true,
@@ -29,30 +38,35 @@ const Chat = () => {
       withCredentials: true,
     });
 
+    // Handle successful connection
     newSocket.on("connect", () => {
       console.log("Connected to WebSocket");
       setConnected(true);
     });
 
+    // Handle connection errors
     newSocket.on("connect_error", (error) => {
       console.error("Connection error:", error);
       setConnected(false);
     });
 
+    // Handle updates to active users list
     newSocket.on("users_update", (users) => {
       console.log("Received users update:", users);
-      // Filter out current user
+      // Extract current user from JWT token and filter them out
       const currentUser = JSON.parse(atob(token.split(".")[1])).sub;
       const filteredUsers = users.filter((user) => user !== currentUser);
       console.log("Filtered users:", filteredUsers);
       setActiveUsers(filteredUsers);
     });
 
+    // Handle incoming messages
     newSocket.on("new_message", (data) => {
       console.log("Received message:", data);
       setMessages((prev) => [...prev, data]);
     });
 
+    // Handle disconnection
     newSocket.on("disconnect", () => {
       console.log("Disconnected from WebSocket");
       setConnected(false);
@@ -60,6 +74,7 @@ const Chat = () => {
 
     setSocket(newSocket);
 
+    // Cleanup function to close socket connection
     return () => {
       if (newSocket) {
         newSocket.close();
@@ -67,6 +82,10 @@ const Chat = () => {
     };
   }, []);
 
+  /**
+   * Handles sending messages to other users
+   * @param {Event} e - Form submit event
+   */
   const sendMessage = (e) => {
     e.preventDefault();
     if (message.trim() && selectedUser && socket) {
@@ -75,7 +94,7 @@ const Chat = () => {
         recipient: selectedUser,
         message: message.trim(),
       });
-      // Add message to local messages
+      // Add sent message to local message history
       setMessages((prev) => [
         ...prev,
         {
@@ -83,12 +102,13 @@ const Chat = () => {
           message: message.trim(),
         },
       ]);
-      setMessage("");
+      setMessage(""); // Clear input field
     }
   };
 
   return (
     <div className="fixed bottom-4 right-4 w-80 bg-white rounded-lg shadow-lg">
+      {/* Chat header with connection status */}
       <div className="p-4 bg-sky-600 text-white rounded-t-lg flex justify-between items-center">
         <h3 className="font-bold">Chat</h3>
         <span
@@ -97,6 +117,7 @@ const Chat = () => {
       </div>
 
       <div className="p-4">
+        {/* User selection dropdown */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Online Users ({activeUsers.length})
@@ -115,6 +136,7 @@ const Chat = () => {
           </select>
         </div>
 
+        {/* Message history display */}
         <div className="h-48 overflow-y-auto mb-4 border rounded p-2">
           {messages.map((msg, index) => (
             <div
@@ -126,6 +148,7 @@ const Chat = () => {
           ))}
         </div>
 
+        {/* Message input form */}
         <form onSubmit={sendMessage} className="flex gap-2">
           <input
             type="text"

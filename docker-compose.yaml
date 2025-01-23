@@ -5,6 +5,8 @@ services:
     build: ./backend
     container_name: skilllinkr-backend
     restart: unless-stopped
+    ports:
+      - "5000:5000"
     networks:
       - app-network
     env_file:
