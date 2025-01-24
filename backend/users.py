@@ -12,7 +12,7 @@ user_bp = Blueprint('users', __name__)
 @jwt_required()
 def get_all_users():
     page = request.args.get('page', default=1, type=int)
-    per_page = request.args.get('per_page', default=4, type=int)  # Match your frontend itemsPerPage
+    per_page = request.args.get('per_page', default=4, type=int)
 
     pagination = User.query.paginate(
         page=page,
