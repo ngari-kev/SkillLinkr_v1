@@ -162,84 +162,86 @@ const Marketplace = () => {
                 : "No users available"}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {currentItems.map((user) => (
-                <div
-                  key={user.id}
-                  className="bg-sky-600 shadow-xl rounded-lg p-6"
-                >
-                  <div className="mb-4">
-                    <h4 className="text-xl font-bold text-white mb-2">
-                      {user.username}
-                    </h4>
-                    <p className="text-white">{user.email}</p>
-                  </div>
-                  <div className="mt-4">
-                    <h5 className="font-semibold text-white mb-2">Skills:</h5>
-                    <div className="flex flex-wrap gap-2">
-                      {user.skills?.map((skill, index) => (
-                        <span
-                          key={index}
-                          className={`px-2 py-1 rounded-full text-sm ${
-                            isSearchActive &&
-                            user.matching_skills?.includes(
-                              skill.name.toLowerCase(),
-                            )
-                              ? "bg-green-200 text-green-800"
-                              : "bg-sky-200 text-sky-800"
-                          }`}
-                        >
-                          {skill.name}
-                        </span>
-                      ))}
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {currentItems.map((user) => (
+                  <div
+                    key={user.id}
+                    className="bg-sky-600 shadow-xl rounded-lg p-6"
+                  >
+                    <div className="mb-4">
+                      <h4 className="text-xl font-bold text-white mb-2">
+                        {user.username}
+                      </h4>
+                      <p className="text-white">{user.email}</p>
+                    </div>
+                    <div className="mt-4">
+                      <h5 className="font-semibold text-white mb-2">Skills:</h5>
+                      <div className="flex flex-wrap gap-2">
+                        {user.skills?.map((skill, index) => (
+                          <span
+                            key={index}
+                            className={`px-2 py-1 rounded-full text-sm ${
+                              isSearchActive &&
+                              user.matching_skills?.includes(
+                                skill.name.toLowerCase(),
+                              )
+                                ? "bg-green-200 text-green-800"
+                                : "bg-sky-200 text-sky-800"
+                            }`}
+                          >
+                            {skill.name}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
+                ))}
+              </div>
+              )}
+              {/*Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center space-x-2 py-8">
+                  <button
+                    onClick={() => handlePageChange(1)}
+                    disabled={currentPage === 1}
+                    className={`px-4 py-2 rounded ${
+                      currentPage === 1
+                        ? "bg-sky-300 cursor-not-allowed"
+                        : "bg-sky-600 text-white hover:bg-sky-700"
+                    }`}
+                  >
+                    First
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, i) => (
+                    <button
+                      key={i + 1}
+                      onClick={() => handlePageChange(i + 1)}
+                      className={`px-4 py-2 rounded ${
+                        currentPage === i + 1
+                          ? "bg-sky-600 text-white"
+                          : "bg-sky-200 text-sky-900 hover:bg-sky-300"
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+
+                  <button
+                    onClick={() => handlePageChange(totalPages)}
+                    disabled={currentPage === totalPages}
+                    className={`px-4 py-2 rounded ${
+                      currentPage === totalPages
+                        ? "bg-sky-300 cursor-not-allowed"
+                        : "bg-sky-600 text-white hover:bg-sky-700"
+                    }`}
+                  >
+                    Last
+                  </button>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {/*Pagination Controls */}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center space-x-2 py-8">
-              <button
-                onClick={() => handlePageChange(1)}
-                disabled={currentPage === 1}
-                className={`px-4 py-2 rounded ${
-                  currentPage === 1
-                    ? "bg-sky-300 cursor-not-allowed"
-                    : "bg-sky-600 text-white hover:bg-sky-700"
-                }`}
-              >
-                First
-              </button>
-
-              {Array.from({ length: totalPages }, (_, i) => (
-                <button
-                  key={i + 1}
-                  onClick={() => handlePageChange(i + 1)}
-                  className={`px-4 py-2 rounded ${
-                    currentPage === i + 1
-                      ? "bg-sky-600 text-white"
-                      : "bg-sky-200 text-sky-900 hover:bg-sky-300"
-                  }`}
-                >
-                  {i + 1}
-                </button>
-              ))}
-
-              <button
-                onClick={() => handlePageChange(totalPages)}
-                disabled={currentPage === totalPages}
-                className={`px-4 py-2 rounded ${
-                  currentPage === totalPages
-                    ? "bg-sky-300 cursor-not-allowed"
-                    : "bg-sky-600 text-white hover:bg-sky-700"
-                }`}
-              >
-                Last
-              </button>
-            </div>
+              )}
+            </>
           )}
         </div>
       </section>
