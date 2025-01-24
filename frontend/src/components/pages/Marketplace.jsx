@@ -149,41 +149,32 @@ const Marketplace = () => {
           {/* Results Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {!loading &&
-              currentItems.map((item) => {
-                // For search results, item has user and matching_skills properties
-                const userData = isSearchActive ? item.user : item;
-                return (
-                  <div
-                    key={userData.id}
-                    className="bg-sky-600 shadow-xl rounded-lg p-6"
-                  >
-                    <div className="mb-4">
-                      <h4 className="text-xl font-bold text-white mb-2">
-                        {userData.username}
-                      </h4>
-                      <p className="text-white">{userData.email}</p>
-                    </div>
-                    <div className="mt-4">
-                      <h5 className="font-semibold text-white mb-2">Skills:</h5>
-                      <div className="flex flex-wrap gap-2">
-                        {userData.skills?.map((skill) => (
-                          <span
-                            key={skill.id}
-                            className={`px-2 py-1 rounded-full text-sm ${
-                              isSearchActive &&
-                              item.matching_skills.includes(skill.name)
-                                ? "bg-green-200 text-green-800" // Highlight matching skills
-                                : "bg-sky-200 text-sky-800"
-                            }`}
-                          >
-                            {skill.name}
-                          </span>
-                        ))}
-                      </div>
+              currentItems.map((user) => (
+                <div
+                  key={user.id}
+                  className="bg-sky-600 shadow-xl rounded-lg p-6"
+                >
+                  <div className="mb-4">
+                    <h4 className="text-xl font-bold text-white mb-2">
+                      {user.username}
+                    </h4>
+                    <p className="text-white">{user.email}</p>
+                  </div>
+                  <div className="mt-4">
+                    <h5 className="font-semibold text-white mb-2">Skills:</h5>
+                    <div className="flex flex-wrap gap-2">
+                      {user.skills?.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="bg-sky-200 text-sky-800 px-2 py-1 rounded-full text-sm"
+                        >
+                          {skill.name}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
           </div>
 
           {/* No Results Message */}
