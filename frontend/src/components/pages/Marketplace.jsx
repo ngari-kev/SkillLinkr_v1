@@ -8,6 +8,7 @@ const Marketplace = () => {
   const [users, setUsers] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isSearchActive, setIsSearchActive] = useState(false);
@@ -22,11 +23,11 @@ const Marketplace = () => {
    * Asynchronously fetches all users from the API
    * Updates users state and handles loading/error states
    */
-  const fetchUsers = async () => {
+  const fetchUsers = async (page) => {
     setLoading(true);
     try {
       const response = await authenticatedFetch(
-        "https://skilllinkr.ngarikev.tech/api/users/all",
+        `https://skilllinkr.ngarikev.tech/api/users/all?page=${page}&per_page=${itemsPerPage}`,
       );
 
       if (!response.ok) {
@@ -34,13 +35,24 @@ const Marketplace = () => {
       }
 
       const data = await response.json();
-      setUsers(data.users || []);
+      setUsers(data.users);
+      setTotalPages(data.total_pages);
     } catch (err) {
       setError("Failed to load users");
       console.error(err);
     } finally {
       setLoading(false);
     }
+  };
+
+  /**
+   * @function handlePageChange
+   * @param {number} page - value of current page
+   * Handles switching from one page to another
+   */
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo(0, 0); // Scroll to top when page changes
   };
 
   /**
@@ -91,7 +103,6 @@ const Marketplace = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = currentData.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(currentData.length / itemsPerPage);
 
   /**
    * @function paginate
@@ -191,7 +202,7 @@ const Marketplace = () => {
           {totalPages > 1 && (
             <div className="flex justify-center space-x-2 mt-8">
               <button
-                onClick={() => paginate(1)}
+                onClick={() => handlePageChange(1)}
                 disabled={currentPage === 1}
                 className={`px-4 py-2 rounded ${
                   currentPage === 1
@@ -205,7 +216,7 @@ const Marketplace = () => {
               {Array.from({ length: totalPages }, (_, i) => (
                 <button
                   key={i + 1}
-                  onClick={() => paginate(i + 1)}
+                  onClick={() => handlePageChange(i + 1)}
                   className={`px-4 py-2 rounded ${
                     currentPage === i + 1
                       ? "bg-sky-600 text-white"
@@ -217,7 +228,7 @@ const Marketplace = () => {
               ))}
 
               <button
-                onClick={() => paginate(totalPages)}
+                onClick={() => handlePageChange(totalPages)}
                 disabled={currentPage === totalPages}
                 className={`px-4 py-2 rounded ${
                   currentPage === totalPages
