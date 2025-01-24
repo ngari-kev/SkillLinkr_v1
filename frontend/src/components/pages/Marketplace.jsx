@@ -76,6 +76,7 @@ const Marketplace = () => {
       }
 
       const data = await response.json();
+      console.log("Search results: ", data);
       setSearchResults(data.users || []);
       setCurrentPage(1);
     } catch (err) {
@@ -112,13 +113,12 @@ const Marketplace = () => {
   return (
     <>
       <Header />
-      <section id="marketplace" className="py-20 bg-white min-h-screen">
+      <section className="py-20 bg-white min-h-screen">
         <div className="container mx-auto px-4">
           <h3 className="text-4xl text-sky-900 font-bold mb-8 text-center">
             Marketplace
           </h3>
 
-          {/* Search Bar Component */}
           <SearchBar onSearch={handleSearch} />
 
           {isSearchActive && (
@@ -132,24 +132,27 @@ const Marketplace = () => {
             </div>
           )}
 
-          {/* Loading State */}
           {loading && (
             <div className="flex justify-center items-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-900"></div>
             </div>
           )}
 
-          {/* Error State */}
           {error && (
             <div className="text-red-500 text-center my-4 p-4 bg-red-50 rounded">
               {error}
             </div>
           )}
 
-          {/* Results Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {!loading &&
-              currentItems.map((user) => (
+          {!loading && currentItems.length === 0 ? (
+            <div className="text-center text-sky-900 py-8">
+              {isSearchActive
+                ? "No users found matching your search criteria"
+                : "No users available"}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {currentItems.map((user) => (
                 <div
                   key={user.id}
                   className="bg-sky-600 shadow-xl rounded-lg p-6"
@@ -166,7 +169,14 @@ const Marketplace = () => {
                       {user.skills?.map((skill, index) => (
                         <span
                           key={index}
-                          className="bg-sky-200 text-sky-800 px-2 py-1 rounded-full text-sm"
+                          className={`px-2 py-1 rounded-full text-sm ${
+                            isSearchActive &&
+                            user.matching_skills?.includes(
+                              skill.name.toLowerCase(),
+                            )
+                              ? "bg-green-200 text-green-800"
+                              : "bg-sky-200 text-sky-800"
+                          }`}
                         >
                           {skill.name}
                         </span>
@@ -175,18 +185,9 @@ const Marketplace = () => {
                   </div>
                 </div>
               ))}
-          </div>
-
-          {/* No Results Message */}
-          {!loading && currentItems.length === 0 && (
-            <div className="text-center text-sky-900 py-8">
-              {isSearchActive
-                ? "No users found matching your search criteria"
-                : "No users available"}
             </div>
           )}
 
-          {/* Pagination Controls */}
           {totalPages > 1 && (
             <div className="flex justify-center space-x-2 mt-8">
               <button

@@ -44,10 +44,9 @@ def remove_skill(skill_name):
     }), 200
 
 @skills_bp.get('/search')
-def search_users_by_skills():
-    """
-    Search for users based on multiple skills (OR logic)
-    """
+@jwt_required()
+def search_users():
+    """Search for users based on multiple skills (OR logic)"""
     skill_names = request.args.get('skills', '').split(',')
     skill_names = [name.strip().lower() for name in skill_names if name.strip()]
 
@@ -64,11 +63,14 @@ def search_users_by_skills():
     result = []
     for user in users:
         user_skills = [{"name": skill.name} for skill in user.skills]
+        matching_skills = [skill.name.lower() for skill in user.skills
+                         if skill.name.lower() in skill_names]
         result.append({
             "id": user.id,
             "username": user.username,
             "email": user.email,
-            "skills": user_skills
+            "skills": user_skills,
+            "matching_skills": matching_skills
         })
 
     return jsonify({
@@ -77,10 +79,9 @@ def search_users_by_skills():
     }), 200
 
 @skills_bp.get('/search-all')
-def search_users_by_all_skills():
-    """
-    Search for users who have ALL of the specified skills (AND logic)
-    """
+@jwt_required()
+def search_users_all():
+    """Search for users who have ALL of the specified skills (AND logic)"""
     skill_names = request.args.get('skills', '').split(',')
     skill_names = [name.strip().lower() for name in skill_names if name.strip()]
 
@@ -94,34 +95,20 @@ def search_users_by_all_skills():
 
     users = query.distinct().all()
 
-    if not users:
-        return jsonify({"users": [], "total_users": 0}), 200
-
     result = []
     for user in users:
         user_skills = [{"name": skill.name} for skill in user.skills]
+        matching_skills = [skill.name.lower() for skill in user.skills
+                         if skill.name.lower() in skill_names]
         result.append({
             "id": user.id,
             "username": user.username,
             "email": user.email,
-            "skills": user_skills
+            "skills": user_skills,
+            "matching_skills": matching_skills
         })
 
     return jsonify({
         "users": result,
         "total_users": len(result)
-    }), 200
-
-@skills_bp.get('/my-skills')
-@jwt_required()
-def get_my_skills():
-    """Get current user's skills"""
-    user = current_user
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-
-    skills = [{"id": skill.id, "name": skill.name} for skill in user.skills]
-    return jsonify({
-        "message": "Skills retrieved successfully",
-        "skills": skills
     }), 200
