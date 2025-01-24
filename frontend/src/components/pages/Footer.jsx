@@ -19,7 +19,10 @@ const Footer = () => {
           <Link to="/marketplace" className="text-white hover:text-sky-200">
             Marketplace
           </Link>
-          <Link to="#" className="text-white hover:text-sky-200">
+          <Link
+            to="https://www.linkedin.com/pulse/skilllinkr-share-your-skills-unlock-opportunities-kelvin-mukaria-halqf/"
+            className="text-white hover:text-sky-200"
+          >
             Blog
           </Link>
           {!isLoggedIn && (
