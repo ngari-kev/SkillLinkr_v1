@@ -202,7 +202,7 @@ const Marketplace = () => {
                   </div>
                 ))}
               </div>
-              )}
+
               {/*Pagination Controls */}
               {totalPagesToShow > 1 && (
                 <div className="flex justify-center items-center space-x-2 py-8">
