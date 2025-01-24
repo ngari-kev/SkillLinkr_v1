@@ -9,21 +9,22 @@ const Marketplace = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchTotalPages, setSearchTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const itemsPerPage = 4;
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsers(currentPage);
+  }, [currentPage]);
 
   /**
    * @function fetchUsers
    * Asynchronously fetches all users from the API
    * Updates users state and handles loading/error states
    */
-  const fetchUsers = async (page) => {
+  const fetchUsers = async (page = 1) => {
     setLoading(true);
     try {
       const response = await authenticatedFetch(
@@ -52,6 +53,7 @@ const Marketplace = () => {
    */
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    fetchUsers(page);
     window.scrollTo(0, 0); // Scroll to top when page changes
   };
 
@@ -80,7 +82,7 @@ const Marketplace = () => {
         .join(",");
 
       const response = await authenticatedFetch(
-        `https://skilllinkr.ngarikev.tech/api${endpoint}?skills=${skills}`,
+        `https://skilllinkr.ngarikev.tech/api${endpoint}?skills=${skills}&page=1&per_page=${itemsPerPage}`,
       );
 
       if (!response.ok) {
@@ -90,6 +92,7 @@ const Marketplace = () => {
       const data = await response.json();
       console.log("Search results: ", data);
       setSearchResults(data.users || []);
+      setSearchTotalPages(data.total_pages);
       setCurrentPage(1);
     } catch (err) {
       setError("Failed to perform search");
@@ -100,6 +103,7 @@ const Marketplace = () => {
   };
 
   const currentData = isSearchActive ? searchResults : users;
+  const totalPagesToShow = isSearchActive ? searchTotalPages : totalPages;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = currentData.slice(indexOfFirstItem, indexOfLastItem);
@@ -200,10 +204,10 @@ const Marketplace = () => {
               </div>
               )}
               {/*Pagination Controls */}
-              {totalPages > 1 && (
+              {totalPagesToShow > 1 && (
                 <div className="flex justify-center items-center space-x-2 py-8">
                   <button
-                    onClick={() => handlePageChange(1)}
+                    onClick={() => paginate(1)}
                     disabled={currentPage === 1}
                     className={`px-4 py-2 rounded ${
                       currentPage === 1
@@ -214,10 +218,10 @@ const Marketplace = () => {
                     First
                   </button>
 
-                  {Array.from({ length: totalPages }, (_, i) => (
+                  {Array.from({ length: totalPagesToShow }, (_, i) => (
                     <button
                       key={i + 1}
-                      onClick={() => handlePageChange(i + 1)}
+                      onClick={() => paginate(i + 1)}
                       className={`px-4 py-2 rounded ${
                         currentPage === i + 1
                           ? "bg-sky-600 text-white"
@@ -229,10 +233,10 @@ const Marketplace = () => {
                   ))}
 
                   <button
-                    onClick={() => handlePageChange(totalPages)}
-                    disabled={currentPage === totalPages}
+                    onClick={() => paginate(totalPagesToShow)}
+                    disabled={currentPage === totalPagesToShow}
                     className={`px-4 py-2 rounded ${
-                      currentPage === totalPages
+                      currentPage === totalPagesToShow
                         ? "bg-sky-300 cursor-not-allowed"
                         : "bg-sky-600 text-white hover:bg-sky-700"
                     }`}
