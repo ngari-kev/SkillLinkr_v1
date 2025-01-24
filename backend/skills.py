@@ -6,6 +6,20 @@ from extensions import db
 
 skills_bp = Blueprint('skills', __name__)
 
+@skills_bp.get('/my-skills')
+@jwt_required()
+def get_my_skills():
+    """Get current user's skills"""
+    user = current_user
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    skills = [{"id": skill.id, "name": skill.name} for skill in user.skills]
+    return jsonify({
+        "message": "Skills retrieved successfully",
+        "skills": skills
+    }), 200
+
 @skills_bp.post('/add')
 @jwt_required()
 def add_skill():
