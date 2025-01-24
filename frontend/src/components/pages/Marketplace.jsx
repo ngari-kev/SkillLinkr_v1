@@ -199,8 +199,9 @@ const Marketplace = () => {
             </div>
           )}
 
+          {/*Pagination Controls */}
           {totalPages > 1 && (
-            <div className="flex justify-center space-x-2 mt-8">
+            <div className="flex justify-center items-center space-x-2 py-8">
               <button
                 onClick={() => handlePageChange(1)}
                 disabled={currentPage === 1}
