@@ -25,9 +25,13 @@ def get_all_users():
 
     serialized_users = [serialize_user(user) for user in pagination.items]
 
-    return jsonify({
+    api_res =  {
         "users": serialized_users,
         "total_pages": pagination.pages,
         "current_page": pagination.page,
         "total_items": pagination.total
-    }), 200
+    }
+
+    print("api response: ", api_res)
+
+    return jsonify(api_res), 200
