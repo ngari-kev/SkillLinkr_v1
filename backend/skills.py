@@ -6,12 +6,6 @@ from extensions import db
 
 skills_bp = Blueprint('skills', __name__)
 
-
-def serialize_user(user):
-    """Serializes a User object into a dictionary, optionally including skills."""
-    return UserSchema().dump(user)
-
-
 @skills_bp.get('/my-skills')
 @jwt_required()
 def get_my_skills():
@@ -25,7 +19,6 @@ def get_my_skills():
         "message": "Skills retrieved successfully",
         "skills": skills
     }), 200
-
 
 @skills_bp.post('/add')
 @jwt_required()
@@ -49,7 +42,6 @@ def add_skill():
         "user": UserSchema().dump(current_user)
     }), 200
 
-
 @skills_bp.delete('/remove/<string:skill_name>')
 @jwt_required()
 def remove_skill(skill_name):
@@ -65,33 +57,25 @@ def remove_skill(skill_name):
         "user": UserSchema().dump(current_user)
     }), 200
 
-
 @skills_bp.get('/search')
 @jwt_required()
 def search_users():
-    """Search for users based on multiple skills (OR logic) with pagination"""
+    """Search for users based on multiple skills (OR logic)"""
     skill_names = request.args.get('skills', '').split(',')
     skill_names = [name.strip().lower() for name in skill_names if name.strip()]
-    page = request.args.get('page', default=1, type=int)
-    per_page = request.args.get('per_page', default=4, type=int)
-
 
     if not skill_names:
         return jsonify({"error": "No skills provided"}), 400
 
-    users_query = User.query.join(User.skills).filter(
+    users = User.query.join(User.skills).filter(
         db.func.lower(Skill.name).in_(skill_names)
-    ).distinct()
+    ).distinct().all()
 
-    pagination = users_query.paginate(
-        page=page,
-        per_page=per_page,
-        error_out=False
-    )
-
+    if not users:
+        return jsonify({"users": [], "total_users": 0}), 200
 
     result = []
-    for user in pagination.items:
+    for user in users:
         user_skills = [{"name": skill.name} for skill in user.skills]
         matching_skills = [skill.name.lower() for skill in user.skills
                          if skill.name.lower() in skill_names]
@@ -103,67 +87,42 @@ def search_users():
             "matching_skills": matching_skills
         })
 
-
-    api_res = {
+    return jsonify({
         "users": result,
-        "total_pages": pagination.pages,
-        "current_page": pagination.page,
-        "total_items": pagination.total
-    }
-
-
-    return jsonify(api_res), 200
-
-
+        "total_users": len(result)
+    }), 200
 
 @skills_bp.get('/search-all')
 @jwt_required()
 def search_users_all():
-    """Search for users who have ALL of the specified skills (AND logic) with pagination"""
+    """Search for users who have ALL of the specified skills (AND logic)"""
     skill_names = request.args.get('skills', '').split(',')
     skill_names = [name.strip().lower() for name in skill_names if name.strip()]
-    page = request.args.get('page', default=1, type=int)
-    per_page = request.args.get('per_page', default=4, type=int)
-
 
     if not skill_names:
-         return jsonify({"error": "No skills provided"}), 400
-
+        return jsonify({"error": "No skills provided"}), 400
 
     query = User.query
 
     for skill_name in skill_names:
         query = query.join(User.skills).filter(db.func.lower(Skill.name) == skill_name)
 
-    users_query = query.distinct()
-
-    pagination = users_query.paginate(
-        page=page,
-        per_page=per_page,
-        error_out=False
-    )
-
+    users = query.distinct().all()
 
     result = []
-    for user in pagination.items:
+    for user in users:
         user_skills = [{"name": skill.name} for skill in user.skills]
         matching_skills = [skill.name.lower() for skill in user.skills
-                        if skill.name.lower() in skill_names]
+                         if skill.name.lower() in skill_names]
         result.append({
-           "id": user.id,
+            "id": user.id,
             "username": user.username,
             "email": user.email,
             "skills": user_skills,
             "matching_skills": matching_skills
         })
 
-
-    api_res = {
+    return jsonify({
         "users": result,
-        "total_pages": pagination.pages,
-        "current_page": pagination.page,
-        "total_items": pagination.total
-    }
-
-
-    return jsonify(api_res), 200
+        "total_users": len(result)
+    }), 200
