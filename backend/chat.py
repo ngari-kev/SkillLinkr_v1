@@ -24,6 +24,11 @@ def handle_connect():
             print(f"Decoded token: {decoded_token}")
             username = decoded_token['sub']
 
+            is_blocklisted = TokenBlocklist.query.filter_by(jti=decoded_token['jti']).first is None
+            if is_blocklisted:
+                print(f"Token for {username} is blocklisted")
+                return False
+
             # Store user's socket ID
             active_users[username] = request.sid
             print(f"User connected: {username}")

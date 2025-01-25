@@ -50,7 +50,8 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     socketio.init_app(app,
-        cors_allowed_origins=["https://skilllinkr.ngarikev.tech"],
+        cors_allowed_origins=["*"],
+        path="/socket.io",
         ping_timeour=5000,
         ping_interval=25000,
         async_mode="gevent",
