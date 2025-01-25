@@ -104,9 +104,6 @@ const Marketplace = () => {
 
   const currentData = isSearchActive ? searchResults : users;
   const totalPagesToShow = isSearchActive ? searchTotalPages : totalPages;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = currentData.slice(indexOfFirstItem, indexOfLastItem);
 
   /**
    * @function paginate
@@ -159,7 +156,7 @@ const Marketplace = () => {
             </div>
           )}
 
-          {!loading && currentItems.length === 0 ? (
+          {!loading && currentData.length === 0 ? (
             <div className="text-center text-sky-900 py-8">
               {isSearchActive
                 ? "No users found matching your search criteria"
@@ -168,7 +165,7 @@ const Marketplace = () => {
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {currentItems.map((user) => (
+                {currentData.map((user) => (
                   <div
                     key={user.id}
                     className="bg-sky-600 shadow-xl rounded-lg p-6"
