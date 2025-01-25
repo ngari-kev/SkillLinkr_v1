@@ -12,6 +12,8 @@ active_users = {}
 def handle_connect():
     try:
         token = request.args.get('token')
+        print(f"Raw token received: {token}")
+
         if not token:
             print("No token provided")
             return False
@@ -19,6 +21,7 @@ def handle_connect():
         # Decode token to get username
         try:
             decoded_token = decode_token(token)
+            print(f"Decoded token: {decoded_token}")
             username = decoded_token['sub']
 
             # Store user's socket ID
