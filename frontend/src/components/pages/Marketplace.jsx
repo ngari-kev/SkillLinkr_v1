@@ -10,24 +10,14 @@ const Marketplace = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [searchTotalPages, setSearchTotalPages] = useState(0);
-  const [currentSearchPage, setCurrentSearchPage] = useState(1);
-  const [currentSearchQuery, setCurrentSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const itemsPerPage = 4;
 
   useEffect(() => {
-    if (!isSearchActive) {
-      fetchUsers(currentPage);
-    }
-  }, [currentPage, isSearchActive]);
-
-  useEffect(() => {
-    if (isSearchActive) {
-      fetchSearchResults(currentSearchQuery, currentSearchPage);
-    }
-  }, [isSearchActive, currentSearchPage]);
+    fetchUsers(currentPage);
+  }, [currentPage]);
 
   /**
    * @function fetchUsers
@@ -62,21 +52,18 @@ const Marketplace = () => {
    * Handles switching from one page to another
    */
   const handlePageChange = (page) => {
-    if (isSearchActive) {
-      setCurrentSearchPage(page);
-    } else {
-      setCurrentPage(page);
-    }
-    window.scrollTo(0, 0);
+    setCurrentPage(page);
+    fetchUsers(page);
+    window.scrollTo(0, 0); // Scroll to top when page changes
   };
 
   /**
-   * @function fetchSearchResults
+   * @function handleSearch
    * @param {string} searchQuery - Comma-separated list of skills to search for
-   * @param {number} page - the current page number
+   * @param {boolean} matchAll - Whether to match all skills or any skill
    * Performs search based on skills and updates search results
    */
-  const fetchSearchResults = async (searchQuery, page) => {
+  const handleSearch = async (searchQuery, matchAll) => {
     if (!searchQuery.trim()) {
       setIsSearchActive(false);
       setSearchResults([]);
@@ -88,14 +75,14 @@ const Marketplace = () => {
     setIsSearchActive(true);
 
     try {
-      const endpoint = "/skills/search";
+      const endpoint = matchAll ? "/skills/search-all" : "/skills/search";
       const skills = searchQuery
         .split(",")
         .map((skill) => skill.trim())
         .join(",");
 
       const response = await authenticatedFetch(
-        `https://skilllinkr.ngarikev.tech/api${endpoint}?skills=${skills}&page=${page}&per_page=${itemsPerPage}`,
+        `https://skilllinkr.ngarikev.tech/api${endpoint}?skills=${skills}&page=1&per_page=${itemsPerPage}`,
       );
 
       if (!response.ok) {
@@ -106,6 +93,7 @@ const Marketplace = () => {
       console.log("Search results: ", data);
       setSearchResults(data.users || []);
       setSearchTotalPages(data.total_pages);
+      setCurrentPage(1);
     } catch (err) {
       setError("Failed to perform search");
       console.error(err);
@@ -114,17 +102,18 @@ const Marketplace = () => {
     }
   };
 
+  const currentData = isSearchActive ? searchResults : users;
+  const totalPagesToShow = isSearchActive ? searchTotalPages : totalPages;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = currentData.slice(indexOfFirstItem, indexOfLastItem);
+
   /**
-   * @function handleSearch
-   * @param {string} searchQuery - Comma-separated list of skills to search for
-   * @param {boolean} matchAll - Whether to match all skills or any skill
-   * Performs search based on skills and updates search results
+   * @function paginate
+   * @param {number} pageNumber - Page number to navigate to
+   * Updates currentPage state for pagination
    */
-  const handleSearch = async (searchQuery) => {
-    setCurrentSearchQuery(searchQuery);
-    setCurrentSearchPage(1);
-    fetchSearchResults(searchQuery, 1);
-  };
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   /**
    * @function handleResetSearch
@@ -133,13 +122,8 @@ const Marketplace = () => {
   const handleResetSearch = () => {
     setIsSearchActive(false);
     setSearchResults([]);
-    setCurrentSearchQuery("");
-    setCurrentSearchPage(1);
     setCurrentPage(1);
   };
-
-  const currentData = isSearchActive ? searchResults : users;
-  const totalPagesToShow = isSearchActive ? searchTotalPages : totalPages;
 
   return (
     <>
@@ -175,7 +159,7 @@ const Marketplace = () => {
             </div>
           )}
 
-          {!loading && currentData.length === 0 ? (
+          {!loading && currentItems.length === 0 ? (
             <div className="text-center text-sky-900 py-8">
               {isSearchActive
                 ? "No users found matching your search criteria"
@@ -184,7 +168,7 @@ const Marketplace = () => {
           ) : (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {currentData.map((user) => (
+                {currentItems.map((user) => (
                   <div
                     key={user.id}
                     className="bg-sky-600 shadow-xl rounded-lg p-6"
@@ -224,13 +208,9 @@ const Marketplace = () => {
                 <div className="flex justify-center items-center space-x-2 py-8">
                   <button
                     onClick={() => handlePageChange(1)}
-                    disabled={
-                      (isSearchActive && currentSearchPage === 1) ||
-                      (!isSearchActive && currentPage === 1)
-                    }
+                    disabled={currentPage === 1}
                     className={`px-4 py-2 rounded ${
-                      (isSearchActive && currentSearchPage === 1) ||
-                      (!isSearchActive && currentPage === 1)
+                      currentPage === 1
                         ? "bg-sky-300 cursor-not-allowed"
                         : "bg-sky-600 text-white hover:bg-sky-700"
                     }`}
@@ -243,8 +223,7 @@ const Marketplace = () => {
                       key={i + 1}
                       onClick={() => handlePageChange(i + 1)}
                       className={`px-4 py-2 rounded ${
-                        (isSearchActive && currentSearchPage === i + 1) ||
-                        (!isSearchActive && currentPage === i + 1)
+                        currentPage === i + 1
                           ? "bg-sky-600 text-white"
                           : "bg-sky-200 text-sky-900 hover:bg-sky-300"
                       }`}
@@ -255,15 +234,9 @@ const Marketplace = () => {
 
                   <button
                     onClick={() => handlePageChange(totalPagesToShow)}
-                    disabled={
-                      (isSearchActive &&
-                        currentSearchPage === totalPagesToShow) ||
-                      (!isSearchActive && currentPage === totalPagesToShow)
-                    }
+                    disabled={currentPage === totalPagesToShow}
                     className={`px-4 py-2 rounded ${
-                      (isSearchActive &&
-                        currentSearchPage === totalPagesToShow) ||
-                      (!isSearchActive && currentPage === totalPagesToShow)
+                      currentPage === totalPagesToShow
                         ? "bg-sky-300 cursor-not-allowed"
                         : "bg-sky-600 text-white hover:bg-sky-700"
                     }`}
