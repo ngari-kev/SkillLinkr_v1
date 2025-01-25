@@ -21,7 +21,7 @@ jobs:
       - name: COPY FILES TO SERVER
         uses: appleboy/scp-action@master
         with:
-          host: 98.84.162.109
+          host: 34.227.105.106
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
           port: 22
@@ -31,7 +31,7 @@ jobs:
       - name: BUILD APP, SETUP BACKUP SCRIPT, AND RUN IN SERVER
         uses: appleboy/ssh-action@master
         with:
-          host: 98.84.162.109
+          host: 34.227.105.106
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
           port: 22
