@@ -113,7 +113,7 @@ const Marketplace = () => {
    * @param {number} pageNumber - Page number to navigate to
    * Updates currentPage state for pagination
    */
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   /**
    * @function handleResetSearch
@@ -207,7 +207,7 @@ const Marketplace = () => {
               {totalPagesToShow > 1 && (
                 <div className="flex justify-center items-center space-x-2 py-8">
                   <button
-                    onClick={() => paginate(1)}
+                    onClick={() => handlePageChange(1)}
                     disabled={currentPage === 1}
                     className={`px-4 py-2 rounded ${
                       currentPage === 1
@@ -221,7 +221,7 @@ const Marketplace = () => {
                   {Array.from({ length: totalPagesToShow }, (_, i) => (
                     <button
                       key={i + 1}
-                      onClick={() => paginate(i + 1)}
+                      onClick={() => handlePageChange(i + 1)}
                       className={`px-4 py-2 rounded ${
                         currentPage === i + 1
                           ? "bg-sky-600 text-white"
@@ -233,7 +233,7 @@ const Marketplace = () => {
                   ))}
 
                   <button
-                    onClick={() => paginate(totalPagesToShow)}
+                    onClick={() => handlePageChange(totalPagesToShow)}
                     disabled={currentPage === totalPagesToShow}
                     className={`px-4 py-2 rounded ${
                       currentPage === totalPagesToShow
