@@ -77,6 +77,7 @@ const Chat = () => {
     // Cleanup function to close socket connection
     return () => {
       if (newSocket) {
+        console.log("Diconnecting socket on cleanup");
         newSocket.close();
       }
     };
