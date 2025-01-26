@@ -31,6 +31,14 @@ def handle_connect():
                 print(f"Token for {username} is blocklisted")
                 return False
 
+            # # Store user's socket ID
+            # active_users[username] = request.sid
+            # print(f"User connected: {username}")
+            # print(f"Active users: {active_users}")
+
+            # # Emit updated user list to all clients
+            # emit('users_update', list(active_users.keys()), broadcast=True)
+            # return True
             # Store user's socket ID
             active_users[username] = request.sid
             print(f"User connected: {username}")
