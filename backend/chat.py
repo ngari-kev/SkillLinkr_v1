@@ -1,6 +1,7 @@
 from flask_socketio import SocketIO, emit, disconnect
 from flask_jwt_extended import decode_token
 from flask import request
+from models import TokenBlockList
 import jwt
 
 socketio = SocketIO(cors_allowed_origins="*", logger=True, engineio_logger=True)
@@ -24,8 +25,9 @@ def handle_connect():
             print(f"Decoded token: {decoded_token}")
             username = decoded_token['sub']
 
-            is_blocklisted = TokenBlocklist.query.filter_by(jti=decoded_token['jti']).first is None
-            if is_blocklisted:
+            is_not_blocklisted = TokenBlockList.query.filter_by(jti=decoded_token['jti']).first is None
+
+            if not is_not_blocklisted:
                 print(f"Token for {username} is blocklisted")
                 return False
 
