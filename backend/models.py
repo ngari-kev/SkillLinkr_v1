@@ -55,7 +55,7 @@ class User(db.Model):
 
 class TokenBlockList(db.Model):
     __tablename__ = 'token_blocklist'
-    jti = db.Column(db.String(), nullable=False)
+    jti = db.Column(db.String(), nullable=False, primary_key=True)
     created_at = db.Column(db.DateTime(), default=datetime.utcnow)
 
     def __repr__(self):
