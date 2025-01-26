@@ -22,13 +22,13 @@ const Chat = () => {
     const token = localStorage.getItem("access");
     if (!token) {
       console.log("No token found");
+      setConnected(false);
       return;
     }
     console.log("Found Token: ", token);
 
     // Initialize Socket.IO connection with configuration
     const newSocket = io("https://skilllinkr.ngarikev.tech", {
-      path: "/socket.io/",
       transports: ["websocket"],
       upgrade: true,
       rememberUpgrade: true,

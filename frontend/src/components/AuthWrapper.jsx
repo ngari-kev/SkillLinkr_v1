@@ -54,7 +54,7 @@ const AuthWrapper = ({ children }) => {
     };
 
     checkAuth();
-  }, [navigate]);
+  }, []);
 
   return (
     <>
