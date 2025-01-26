@@ -28,7 +28,7 @@ const Chat = () => {
     console.log("Found Token: ", token);
 
     // Initialize Socket.IO connection with configuration
-    const newSocket = io("https://skilllinkr.ngarikev.tech", {
+    const newSocket = io("wss://skilllinkr.ngarikev.tech", {
       transports: ["websocket"],
       upgrade: true,
       rememberUpgrade: true,
